@@ -46,6 +46,8 @@ gcc -o main.exe aes_lut.c test_aes_lut.c
 
 > Intel Intrinsics Guide. https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html
 
+需要处理器支持Intel的AES指令集，需要添加编译参数`-maes`（使用MSVC编译器除外）
+
 ```
 gcc -o main.exe -maes aes_aesni.c test_aes_aesni.c
 ```
