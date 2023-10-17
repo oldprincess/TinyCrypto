@@ -29,6 +29,18 @@
 -mssse3 -mpclmul
 ```
 
+## SHA1
+
+> FIPS 180-4 Secure Hash Standard (SHS), 
+> https://csrc.nist.gov/pubs/fips/180-4/upd1/final
+
+> RFC 3174: US Secure Hash Algorithm 1 (SHA1),
+> https://www.rfc-editor.org/rfc/rfc3174
+
+```
+gcc -o main.exe sha1_standard.c test_sha1_standard.c
+```
+
 ## SM3
 
 > GB/T 32905-2016 信息安全技术 SM3密码杂凑算法
