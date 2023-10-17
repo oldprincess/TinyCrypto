@@ -29,10 +29,23 @@
 -mssse3 -mpclmul
 ```
 
+## MD5
+
+* md5 standard
+
+> RFC 1321: The MD5 Message-Digest Algorithm
+> https://www.rfc-editor.org/rfc/rfc1321
+
+```
+gcc -o main.exe md5_standard.c test_md5_standard.c
+```
+
 ## SHA1
 
 > FIPS 180-4 Secure Hash Standard (SHS), 
 > https://csrc.nist.gov/pubs/fips/180-4/upd1/final
+
+* sha1 standard
 
 > RFC 3174: US Secure Hash Algorithm 1 (SHA1),
 > https://www.rfc-editor.org/rfc/rfc3174
