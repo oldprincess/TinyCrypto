@@ -1,3 +1,7 @@
+/**
+ * modify
+ * cite: https://www.rfc-editor.org/rfc/rfc1321
+ */
 #ifndef _TINY_CRYPTO_MD5_STANDARD_H
 #define _TINY_CRYPTO_MD5_STANDARD_H
 
@@ -11,17 +15,13 @@
 extern "C" {
 #endif
 
-/* MD5 context. */
-typedef struct MD5_CTX
-{
-    uint32_t state[4];   /* state (ABCD) */
-    uint32_t count[2];   /* number of bits, modulo 2^64 (lsb first) */
-    uint8_t  buffer[64]; /* input buffer */
-} MD5_CTX;
-
 typedef struct Md5StandardCTX
 {
-    MD5_CTX ctx;
+    uint32_t state[4];
+    uint64_t data_bits;
+
+    uint8_t buf[64];
+    size_t  buf_size;
 } Md5StandardCTX;
 
 void md5_standard_init(Md5StandardCTX* ctx);
