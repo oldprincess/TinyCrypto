@@ -75,7 +75,7 @@ static const uint32_t T[64] = {
     0xa7a879d8U, 0x4f50f3b1U, 0x9ea1e762U, 0x3d43cec5U,
 };
 
-static void sm3_fast_compress(uint32_t digest[8], const uint8_t* data)
+static void sm3_fast_compress(uint32_t digest[8], const uint8_t data[64])
 {
     uint32_t A, B, C, D, E, F, G, H;
     uint32_t W[68];
@@ -184,8 +184,12 @@ void sm3_fast_reset(Sm3FastCTX* ctx)
 
 int sm3_fast_update(Sm3FastCTX* ctx, const uint8_t* in, size_t inl)
 {
+    if (inl > UINT64_MAX / 8)
+    {
+        return -1; // input bits overflow
+    }
     uint64_t inl_bits = (uint64_t)inl * 8;
-    if (inl_bits < inl || u64_add(&(ctx->data_bits), inl_bits))
+    if (u64_add(&(ctx->data_bits), inl_bits))
     {
         return -1; // input bits overflow
     }
@@ -258,8 +262,12 @@ void sm3_fast_final(Sm3FastCTX* ctx, uint8_t digest[32])
         sm3_fast_compress(ctx->state, buf + i);
     }
     // output digest
-    for (int i = 0; i < 8; i++)
-    {
-        MEM_STORE32BE(digest + 4 * i, ctx->state[i]);
-    }
+    MEM_STORE32BE(digest + 4 * 0, ctx->state[0]);
+    MEM_STORE32BE(digest + 4 * 1, ctx->state[1]);
+    MEM_STORE32BE(digest + 4 * 2, ctx->state[2]);
+    MEM_STORE32BE(digest + 4 * 3, ctx->state[3]);
+    MEM_STORE32BE(digest + 4 * 4, ctx->state[4]);
+    MEM_STORE32BE(digest + 4 * 5, ctx->state[5]);
+    MEM_STORE32BE(digest + 4 * 6, ctx->state[6]);
+    MEM_STORE32BE(digest + 4 * 7, ctx->state[7]);
 }
