@@ -44,12 +44,7 @@ int main()
                 exit(-1);
             }
         }
-        if (sha1_standard_final(&ctx, digest))
-        {
-            fprintf(stderr, "err in sha1 standard final, file: %s, line: %d\n",
-                    __FILE__, __LINE__);
-            exit(-1);
-        }
+        sha1_standard_final(&ctx, digest);
         // convert to hex
         char out_hex[20 * 3] = {0};
         for (int i = 0; i < 20; i++)
