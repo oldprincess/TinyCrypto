@@ -80,18 +80,6 @@ static const uint8_t DATA_c4[16] = {
     0x80, 0x08, 0x80, 0x09, 0x80, 0x0a, 0x80, 0x0b,
     0x80, 0x0c, 0x80, 0x0d, 0x80, 0x0e, 0x80, 0x0f,
 };
-#include <stdio.h>
-
-void p128(__m128i n)
-{
-    uint8_t buffer[16];
-    _mm_storeu_si128((__m128i *)buffer, n);
-    for (int i = 0; i < 16; i++)
-    {
-        printf("0x%02x, ", buffer[i]);
-    }
-    puts("");
-}
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++
 // **************************************************
