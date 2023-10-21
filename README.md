@@ -8,10 +8,13 @@
 
 * AES
 * SM4
+* uBlock
 
 ## 哈希算法 —— hash
 
 [link](./hash/README.md)
 
-* SM3
 * GHash
+* MD5
+* SHA1
+* SM3
