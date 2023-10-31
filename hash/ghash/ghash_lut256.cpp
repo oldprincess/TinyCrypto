@@ -1,6 +1,8 @@
 #include "ghash_lut256.h"
 #include <string.h>
 
+namespace tc {
+
 // ++++++++++++++++++++++++++++++++++++++++++++++++++
 // **************************************************
 // ************* GHASH Core Algorithm ****************
@@ -234,3 +236,4 @@ int ghash_lut256_final(const GHashLut256CTX *ctx, uint8_t digest[16])
 }
 
 #pragma endregion
+}; // namespace tc

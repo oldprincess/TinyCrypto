@@ -3,6 +3,8 @@
 #include <string.h>
 #include "sm3_fast.h"
 
+namespace tc {
+
 #define MEM_LOAD32BE(src)                       \
     (((uint32_t)(((uint8_t*)(src))[0]) << 24) | \
      ((uint32_t)(((uint8_t*)(src))[1]) << 16) | \
@@ -271,3 +273,5 @@ void sm3_fast_final(Sm3FastCTX* ctx, uint8_t digest[32])
     MEM_STORE32BE(digest + 4 * 6, ctx->state[6]);
     MEM_STORE32BE(digest + 4 * 7, ctx->state[7]);
 }
+
+}; // namespace tc

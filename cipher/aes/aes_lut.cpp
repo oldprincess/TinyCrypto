@@ -1,5 +1,7 @@
 #include "aes_lut.h"
 
+namespace tc {
+
 // ++++++++++++++++++++++++++++++++++++++++++++++++++
 // **************************************************
 // ************* AES CIPHER PARAM *******************
@@ -952,3 +954,5 @@ void aes256_lut_dec_blocks(const Aes256LutCTX *ctx,
 }
 
 #pragma endregion
+
+}; // namespace tc

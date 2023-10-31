@@ -7,9 +7,7 @@
 #define SHA1_BLOCK_SIZE  64
 #define SHA1_DIGEST_SIZE 20
 
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
+namespace tc {
 
 typedef struct _Sha1StandardCTX
 {
@@ -28,8 +26,6 @@ int sha1_standard_update(Sha1StandardCTX* ctx, const uint8_t* in, size_t inl);
 
 void sha1_standard_final(Sha1StandardCTX* ctx, uint8_t digest[20]);
 
-#ifdef __cplusplus
-}
-#endif // __cplusplus
+}; // namespace tc
 
 #endif

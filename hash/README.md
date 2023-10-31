@@ -37,7 +37,7 @@
 > https://www.rfc-editor.org/rfc/rfc1321
 
 ```
-gcc -o main.exe md5_standard.c test_md5_standard.c
+g++ -DTINY_CRYPTO_TEST -o main.exe md5_standard.cpp test_md5_standard.cpp
 ```
 
 ## SHA1
@@ -51,7 +51,22 @@ gcc -o main.exe md5_standard.c test_md5_standard.c
 > https://www.rfc-editor.org/rfc/rfc3174
 
 ```
-gcc -o main.exe sha1_standard.c test_sha1_standard.c
+g++ -DTINY_CRYPTO_TEST -o main.exe sha1_standard.cpp test_sha1_standard.cpp
+```
+
+## SHA2
+
+> FIPS 180-4 Secure Hash Standard (SHS)
+> https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf
+
+> US Secure Hash Algorithms(SHA and SHA-based HMAC and HKDF)
+> https://www.rfc-editor.org/rfc/rfc6234
+
+* sha2
+
+sha224, sha256, sha384, sha512, sha512/t
+
+```
 ```
 
 ## SM3
@@ -67,5 +82,5 @@ gcc -o main.exe sha1_standard.c test_sha1_standard.c
 > YANG Xianwei, KANG Hongjuan. Fast software implementation of SM3 Hash algorithm[J]. CAAI Transactions on Intelligent Systems, 2015, 10(2): 954-95.
 
 ```
-gcc -o main.exe sm3_fast.c test_sm3_fast.c
+g++ -DTINY_CRYPTO_TEST -o main.exe sm3_fast.cpp test_sm3_fast.cpp
 ```

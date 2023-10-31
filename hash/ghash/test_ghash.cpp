@@ -1,3 +1,5 @@
+#ifdef TINY_CRYPTO_TEST
+
 #include "ghash_common.h"
 #include "ghash_lut256.h"
 #include "ghash_pclmul.h"
@@ -5,6 +7,8 @@
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
+
+using namespace tc;
 
 static void rand_mem(void* out, size_t len)
 {
@@ -50,3 +54,4 @@ int main()
     puts("test ghash finish!");
     return 0;
 }
+#endif

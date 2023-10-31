@@ -1,6 +1,8 @@
 #include "sha1_standard.h"
 #include <string.h>
 
+namespace tc {
+
 #define MEM_LOAD32BE(src)                       \
     (((uint32_t)(((uint8_t*)(src))[0]) << 24) | \
      ((uint32_t)(((uint8_t*)(src))[1]) << 16) | \
@@ -246,3 +248,4 @@ void sha1_standard_final(Sha1StandardCTX* ctx, uint8_t digest[20])
     MEM_STORE32BE(digest + 4 * 3, ctx->state[3]);
     MEM_STORE32BE(digest + 4 * 4, ctx->state[4]);
 }
+}; // namespace tc

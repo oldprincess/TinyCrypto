@@ -1,3 +1,4 @@
+#ifdef TINY_CRYPTO_TEST
 /**
  * https://www.rfc-editor.org/rfc/rfc3174#section-7.3
  */
@@ -5,6 +6,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
+using namespace tc;
 
 /*
  *  Define patterns for testing
@@ -18,9 +21,9 @@
 #define TEST4b "01234567012345670123456701234567"
 /* an exact multiple of 512 bits */
 #define TEST4 TEST4a TEST4b
-static char    *testarray[4]   = {TEST1, TEST2, TEST3, TEST4};
-static long int repeatcount[4] = {1, 1, 1000000, 10};
-static char    *resultarray[4] = {
+static const char *testarray[4]   = {TEST1, TEST2, TEST3, TEST4};
+static long int    repeatcount[4] = {1, 1, 1000000, 10};
+static const char *resultarray[4] = {
     "A9 99 3E 36 47 06 81 6A BA 3E 25 71 78 50 C2 6C 9C D0 D8 9D",
     "84 98 3E 44 1C 3B D2 6E BA AE 4A A1 F9 51 29 E5 E5 46 70 F1",
     "34 AA 97 3C D4 C4 DA A4 F6 1E EB 2B DB AD 27 31 65 34 01 6F",
@@ -66,3 +69,4 @@ int main()
     puts("test sha1 standard ok!");
     return 0;
 }
+#endif

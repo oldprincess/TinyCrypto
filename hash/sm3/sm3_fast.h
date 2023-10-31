@@ -10,9 +10,7 @@
 #define SM3_BLOCK_SIZE  64
 #define SM3_DIGEST_SIZE 32
 
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
+namespace tc {
 
 typedef struct Sm3FastCTX
 {
@@ -31,8 +29,6 @@ int sm3_fast_update(Sm3FastCTX* ctx, const uint8_t* in, size_t inl);
 
 void sm3_fast_final(Sm3FastCTX* ctx, uint8_t digest[32]);
 
-#ifdef __cplusplus
-}
-#endif // __cplusplus
+}; // namespace tc
 
 #endif // !_TINY_CRYPTO_HASH_SM3_GMSSL_H

@@ -16,9 +16,7 @@
 #define AES192_USER_KEY_LEN 24
 #define AES256_USER_KEY_LEN 32
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+namespace tc {
 
 // ****************************************
 // ************* AES 128 ******************
@@ -179,8 +177,6 @@ void aes256_lut_dec_blocks(const Aes256LutCTX* ctx,
                            const uint8_t*      ciphertext,
                            size_t              block_num);
 
-#ifdef __cplusplus
-}
-#endif
+}; // namespace tc
 
 #endif

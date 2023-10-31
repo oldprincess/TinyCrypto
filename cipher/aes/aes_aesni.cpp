@@ -1,6 +1,8 @@
 #include "aes_aesni.h"
 #include <immintrin.h>
 
+namespace tc {
+
 #define _mm_shuffle_epi64(a, b, imm8) \
     _mm_castpd_si128(                 \
         _mm_shuffle_pd(_mm_castsi128_pd(a), _mm_castsi128_pd(b), imm8))
@@ -579,3 +581,4 @@ void aes256_aesni_dec_blocks(const Aes256AesniCTX* ctx,
         block_num -= 1;
     }
 }
+}; // namespace tc

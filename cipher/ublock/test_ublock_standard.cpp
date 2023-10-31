@@ -1,7 +1,11 @@
+#ifdef TINY_CRYPTO_TEST
+
 #include "ublock_standard.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+using namespace tc;
 
 int main()
 {
@@ -148,3 +152,4 @@ int main()
     puts("test ublock standard ok!");
     return 0;
 }
+#endif

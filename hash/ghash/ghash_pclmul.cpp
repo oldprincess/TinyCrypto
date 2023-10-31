@@ -2,6 +2,8 @@
 #include <string.h>
 #include <immintrin.h>
 
+namespace tc {
+
 /**
  * @cite Intrinsics for Carry-less Multiplication Instruction and Advanced
  * Encryption Standard Instructions
@@ -154,3 +156,4 @@ int ghash_pclmul_final(const GHashPclmulCTX* ctx, uint8_t digest[16])
     _mm_storeu_si128((__m128i*)digest, reflect_xmm(state));
     return 0;
 }
+}; // namespace tc

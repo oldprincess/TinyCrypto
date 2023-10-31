@@ -1,6 +1,8 @@
 #include "md5_standard.h"
 #include <string.h>
 
+namespace tc {
+
 #define MEM_LOAD32LE(src)                       \
     (((uint32_t)(((uint8_t*)(src))[0]) << 0) |  \
      ((uint32_t)(((uint8_t*)(src))[1]) << 8) |  \
@@ -289,3 +291,4 @@ void md5_standard_final(Md5StandardCTX* ctx, uint8_t digest[16])
     MEM_STORE32LE(digest + 4 * 2, ctx->state[2]);
     MEM_STORE32LE(digest + 4 * 3, ctx->state[3]);
 }
+}; // namespace tc

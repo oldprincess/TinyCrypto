@@ -1,7 +1,11 @@
+#ifdef TINY_CRYPTO_TEST
+
 #include "sm3_fast.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+using namespace tc;
 
 static const uint8_t msg[]           = {'a', 'b', 'c'};
 static const uint8_t need_digest[32] = {
@@ -46,3 +50,4 @@ int main()
     puts("test sm3 ok!");
     return 0;
 }
+#endif

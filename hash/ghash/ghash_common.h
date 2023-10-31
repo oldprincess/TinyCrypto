@@ -11,9 +11,7 @@
 #define GHASH_BLOCK_SIZE  16
 #define GHASH_DIGEST_SIZE 16
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+namespace tc {
 
 typedef struct GHashCommonCTX
 {
@@ -32,8 +30,6 @@ void ghash_common_update(GHashCommonCTX* ctx, const uint8_t* in, size_t inl);
 
 int ghash_common_final(const GHashCommonCTX* ctx, uint8_t digest[16]);
 
-#ifdef __cplusplus
-}
-#endif
+}; // namespace tc
 
 #endif

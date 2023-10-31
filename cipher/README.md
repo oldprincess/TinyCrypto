@@ -15,7 +15,7 @@
 > https://csrc.nist.gov/csrc/media/projects/cryptographic-standards-and-guidelines/documents/aes-development/rijndael-ammended.pdf
 
 ```
-gcc -o main.exe aes_lut.c test_aes_lut.c 
+g++ -DTINY_CRYPTO_TEST -o main.exe aes_lut.cpp test_aes_lut.cpp
 ```
 
 * aes-aesni
@@ -27,7 +27,7 @@ gcc -o main.exe aes_lut.c test_aes_lut.c
 需要处理器支持Intel的AES指令集，需要添加编译参数`-maes`（使用MSVC编译器除外）
 
 ```
-gcc -o main.exe -maes aes_aesni.c test_aes_aesni.c
+g++ -DTINY_CRYPTO_TEST -o main.exe -maes aes_aesni.cpp test_aes_aesni.cpp
 ```
 
 ## SM4
@@ -39,7 +39,7 @@ gcc -o main.exe -maes aes_aesni.c test_aes_aesni.c
 * sm4-common
 
 ```
-gcc -o main.exe sm4_common.c test_sm4_common.c 
+g++ -DTINY_CRYPTO_TEST -o main.exe sm4_common.cpp test_sm4_common.cpp 
 ```
 
 * sm4-lut
@@ -49,7 +49,7 @@ gcc -o main.exe sm4_common.c test_sm4_common.c
 > Lang H, Zhang L, Wu W L. Fast software implementation of SM4[J]. Journal of University of Chinese Academy of Sciences, 2018, 35(2): 180-187.
 
 ```
-gcc -o main.exe sm4_lut.c test_sm4_lut.c 
+g++ -DTINY_CRYPTO_TEST -o main.exe sm4_lut.cpp test_sm4_lut.cpp
 ```
 
 ## uBlock
@@ -64,5 +64,5 @@ gcc -o main.exe sm4_lut.c test_sm4_lut.c
 需要处理器支持Intel的SSSE3指令集，需要添加编译参数`-mssse3`（使用MSVC编译器除外）
 
 ```
-gcc -o main.exe ublock_standard.c test_ublock_standard.c -mssse3
+g++ -DTINY_CRYPTO_TEST -o main.exe ublock_standard.cpp test_ublock_standard.cpp -mssse3
 ```

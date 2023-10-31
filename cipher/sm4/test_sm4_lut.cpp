@@ -1,7 +1,11 @@
+#ifdef TINY_CRYPTO_TEST
+
 #include "sm4_lut.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+using namespace tc;
 
 static uint8_t user_key[16] = {
     0x04, 0xb5, 0xf0, 0x47, 0x03, 0xe2, 0x02, 0x5f,
@@ -59,3 +63,4 @@ int main()
     puts("sm4 lut test OK!");
     return 0;
 }
+#endif

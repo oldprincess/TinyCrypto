@@ -11,9 +11,7 @@
 #define MD5_BLOCK_SIZE  64
 #define MD5_DIGEST_SIZE 16
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+namespace tc {
 
 typedef struct Md5StandardCTX
 {
@@ -32,8 +30,6 @@ void md5_standard_update(Md5StandardCTX* ctx, const uint8_t* in, size_t inl);
 
 void md5_standard_final(Md5StandardCTX* ctx, uint8_t digest[16]);
 
-#ifdef __cplusplus
-}
-#endif
+}; // namespace tc
 
 #endif

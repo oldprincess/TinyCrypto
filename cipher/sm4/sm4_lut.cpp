@@ -1,5 +1,7 @@
 #include "sm4_lut.h"
 
+namespace tc {
+
 // ++++++++++++++++++++++++++++++++++++++++++++++++++
 // **************************************************
 // ********** SM4 LUT Params And Define *************
@@ -575,3 +577,4 @@ void sm4_lut_dec_blocks(const Sm4LutCTX* ctx,
 }
 
 #pragma endregion
+}; // namespace tc

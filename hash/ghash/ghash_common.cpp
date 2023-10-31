@@ -1,6 +1,8 @@
 #include "ghash_common.h"
 #include <string.h>
 
+namespace tc {
+
 #define MEM_LOAD64BE(src)                       \
     (((uint64_t)(((uint8_t*)(src))[0]) << 56) | \
      ((uint64_t)(((uint8_t*)(src))[1]) << 48) | \
@@ -136,3 +138,4 @@ int ghash_common_final(const GHashCommonCTX* ctx, uint8_t digest[16])
     MEM_STORE64BE(digest + 8, ctx->state[1]);
     return 0;
 }
+}; // namespace tc

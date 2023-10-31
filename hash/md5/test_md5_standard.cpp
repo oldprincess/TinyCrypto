@@ -1,7 +1,11 @@
+#ifdef TINY_CRYPTO_TEST
+
 #include "md5_standard.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
+using namespace tc;
 
 static char* tohex(char* hex, const uint8_t* in, size_t inl)
 {
@@ -76,3 +80,4 @@ int main()
     puts("test md5 standard ok");
     return 0;
 }
+#endif

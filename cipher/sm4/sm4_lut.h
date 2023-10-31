@@ -12,9 +12,7 @@
 #define SM4_BLOCK_SIZE   16
 #define SM4_USER_KEY_LEN 16
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+namespace tc {
 
 typedef struct Sm4LutCTX
 {
@@ -51,8 +49,6 @@ void sm4_lut_dec_blocks(const Sm4LutCTX* ctx,
                         const uint8_t*   ciphertext,
                         size_t           block_num);
 
-#ifdef __cplusplus
-}
-#endif
+}; // namespace tc
 
 #endif

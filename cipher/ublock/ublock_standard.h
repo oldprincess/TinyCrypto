@@ -19,9 +19,7 @@
 #define UBLOCK256256_BLOCK_SIZE   32
 #define UBLOCK256256_USER_KEY_LEN 32
 
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
+namespace tc {
 
 typedef struct UBlockStandardCTX
 {
@@ -117,8 +115,6 @@ void ublock256256_standard_dec_blocks(const UBlockStandardCTX *ctx,
                                       const uint8_t           *ciphertext,
                                       size_t                   block_num);
 
-#ifdef __cplusplus
-}
-#endif // __cplusplus
+}; // namespace tc
 
 #endif

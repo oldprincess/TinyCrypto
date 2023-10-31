@@ -1,7 +1,11 @@
-#include "aes_lut.h"
+#ifdef TINY_CRYPTO_TEST
+
+#include "aes_aesni.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
+using namespace tc;
 
 static uint8_t user_key[32] = {
     0x04, 0xb5, 0xf0, 0x47, 0x03, 0xe2, 0x02, 0x5f, 0x5d, 0x08, 0x46,
@@ -67,66 +71,67 @@ static uint8_t ct256[] = {
 
 int main()
 {
-    uint8_t      buffer[sizeof(pt)];
-    Aes128LutCTX aes128ctx;
-    aes128_lut_enc_key_init(&aes128ctx, user_key);
-    aes128_lut_enc_blocks(&aes128ctx, buffer, pt,
-                          sizeof(pt) / AES128_BLOCK_SIZE);
+    uint8_t        buffer[sizeof(pt)];
+    Aes128AesniCTX aes128ctx;
+    aes128_aesni_enc_key_init(&aes128ctx, user_key);
+    aes128_aesni_enc_blocks(&aes128ctx, buffer, pt,
+                            sizeof(pt) / AES128_BLOCK_SIZE);
     if (memcmp(buffer, ct128, sizeof(ct128)) != 0)
     {
-        fprintf(stderr, "err in aes128 lut enc, file: %s, line: %d\n", __FILE__,
-                __LINE__);
+        fprintf(stderr, "err in aes128 aesni enc, file: %s, line: %d\n",
+                __FILE__, __LINE__);
         exit(-1);
     }
-    aes128_lut_dec_key_init(&aes128ctx, user_key);
-    aes128_lut_dec_blocks(&aes128ctx, buffer, ct128,
-                          sizeof(ct128) / AES128_BLOCK_SIZE);
+    aes128_aesni_dec_key_init(&aes128ctx, user_key);
+    aes128_aesni_dec_blocks(&aes128ctx, buffer, ct128,
+                            sizeof(ct128) / AES128_BLOCK_SIZE);
     if (memcmp(buffer, pt, sizeof(pt)) != 0)
     {
-        fprintf(stderr, "err in aes128 lut dec, file: %s, line: %d\n", __FILE__,
-                __LINE__);
+        fprintf(stderr, "err in aes128 aesni dec, file: %s, line: %d\n",
+                __FILE__, __LINE__);
         exit(-1);
     }
 
-    Aes192LutCTX aes192ctx;
-    aes192_lut_enc_key_init(&aes192ctx, user_key);
-    aes192_lut_enc_blocks(&aes192ctx, buffer, pt,
-                          sizeof(pt) / AES192_BLOCK_SIZE);
+    Aes192AesniCTX aes192ctx;
+    aes192_aesni_enc_key_init(&aes192ctx, user_key);
+    aes192_aesni_enc_blocks(&aes192ctx, buffer, pt,
+                            sizeof(pt) / AES192_BLOCK_SIZE);
     if (memcmp(buffer, ct192, sizeof(ct192)) != 0)
     {
-        fprintf(stderr, "err in aes192 lut enc, file: %s, line: %d\n", __FILE__,
-                __LINE__);
+        fprintf(stderr, "err in aes192 aesni enc, file: %s, line: %d\n",
+                __FILE__, __LINE__);
         exit(-1);
     }
-    aes192_lut_dec_key_init(&aes192ctx, user_key);
-    aes192_lut_dec_blocks(&aes192ctx, buffer, ct192,
-                          sizeof(ct192) / AES192_BLOCK_SIZE);
+    aes192_aesni_dec_key_init(&aes192ctx, user_key);
+    aes192_aesni_dec_blocks(&aes192ctx, buffer, ct192,
+                            sizeof(ct192) / AES192_BLOCK_SIZE);
     if (memcmp(buffer, pt, sizeof(pt)) != 0)
     {
-        fprintf(stderr, "err in aes192 lut dec, file: %s, line: %d\n", __FILE__,
-                __LINE__);
+        fprintf(stderr, "err in aes192 aesni dec, file: %s, line: %d\n",
+                __FILE__, __LINE__);
         exit(-1);
     }
 
-    Aes256LutCTX aes256ctx;
-    aes256_lut_enc_key_init(&aes256ctx, user_key);
-    aes256_lut_enc_blocks(&aes256ctx, buffer, pt,
-                          sizeof(pt) / AES256_BLOCK_SIZE);
+    Aes256AesniCTX aes256ctx;
+    aes256_aesni_enc_key_init(&aes256ctx, user_key);
+    aes256_aesni_enc_blocks(&aes256ctx, buffer, pt,
+                            sizeof(pt) / AES256_BLOCK_SIZE);
     if (memcmp(buffer, ct256, sizeof(ct256)) != 0)
     {
-        fprintf(stderr, "err in aes256 lut enc, file: %s, line: %d\n", __FILE__,
-                __LINE__);
+        fprintf(stderr, "err in aes256 aesni enc, file: %s, line: %d\n",
+                __FILE__, __LINE__);
         exit(-1);
     }
-    aes256_lut_dec_key_init(&aes256ctx, user_key);
-    aes256_lut_dec_blocks(&aes256ctx, buffer, ct256,
-                          sizeof(ct256) / AES256_BLOCK_SIZE);
+    aes256_aesni_dec_key_init(&aes256ctx, user_key);
+    aes256_aesni_dec_blocks(&aes256ctx, buffer, ct256,
+                            sizeof(ct256) / AES256_BLOCK_SIZE);
     if (memcmp(buffer, pt, sizeof(pt)) != 0)
     {
-        fprintf(stderr, "err in aes256 lut dec, file: %s, line: %d\n", __FILE__,
-                __LINE__);
+        fprintf(stderr, "err in aes256 aesni dec, file: %s, line: %d\n",
+                __FILE__, __LINE__);
         exit(-1);
     }
-    puts("aes lut test OK!");
+    puts("aes aesni test OK!");
     return 0;
 }
+#endif

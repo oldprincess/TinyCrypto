@@ -1,5 +1,7 @@
 #include "sm4_common.h"
 
+namespace tc {
+
 // ++++++++++++++++++++++++++++++++++++++++++++++++++
 // **************************************************
 // ************* SM4 CIPHER CORE ********************
@@ -216,3 +218,4 @@ void sm4_common_dec_blocks(const Sm4CommonCTX *ctx,
         block_num -= 1;
     }
 }
+}; // namespace tc
