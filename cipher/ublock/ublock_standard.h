@@ -2,7 +2,7 @@
  * WU W L, ZHANG L, ZHENG Y F, LI L C. The block cipher uBlock[J]. Journal of
  * Cryptologic Research, 2019, 6(6): 690–703.
  *
- * https://sfjs.cacrnet.org.cn/site/term/list_73_1.html
+ * https://sfjs.cacrnet.org.cn/site/term/list_76_1.html
  */
 #ifndef _TINY_CRYPTO_CIPHER_UBLOCK_STANDARD_H
 #define _TINY_CRYPTO_CIPHER_UBLOCK_STANDARD_H

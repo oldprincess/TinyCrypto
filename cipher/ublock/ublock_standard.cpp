@@ -2,7 +2,7 @@
  * WU W L, ZHANG L, ZHENG Y F, LI L C. The block cipher uBlock[J]. Journal of
  * Cryptologic Research, 2019, 6(6): 690–703.
  *
- * https://sfjs.cacrnet.org.cn/site/term/list_73_1.html
+ * https://sfjs.cacrnet.org.cn/site/term/list_76_1.html
  */
 
 #include "ublock_standard.h"
@@ -731,15 +731,15 @@ static void uBlock_256256_Encrypt(const uint8_t        Subkey[25][64],
     __m128i A1    = _mm_loadu_si128((const __m128i *)DATA_A1);
     __m128i A2    = _mm_loadu_si128((const __m128i *)DATA_A2);
     __m128i A3    = _mm_loadu_si128((const __m128i *)DATA_A3);
-
-    __m128i L1 = _mm_setr_epi8(0x80, 0x80, 0x80, 0x80, 6, 7, 8, 9, 0x80, 0x80,
-                               2, 3, 0x80, 0x80, 12, 13);
-    __m128i L2 = _mm_setr_epi8(10, 11, 4, 5, 0x80, 0x80, 0x80, 0x80, 0, 1, 0x80,
-                               0x80, 14, 15, 0x80, 0x80);
-    __m128i L3 = _mm_setr_epi8(14, 15, 0, 1, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-                               4, 5, 0x80, 0x80, 10, 11);
-    __m128i L4 = _mm_setr_epi8(0x80, 0x80, 0x80, 0x80, 12, 13, 2, 3, 6, 7, 0x80,
-                               0x80, 8, 9, 0x80, 0x80);
+    int     i;
+    __m128i L1 = _mm_setr_epi8(4, 5, 14, 15, 0x80, 0x80, 0x80, 0x80, 6, 7, 12,
+                               13, 0x80, 0x80, 0x80, 0x80);
+    __m128i L2 = _mm_setr_epi8(0x80, 0x80, 0x80, 0x80, 0, 1, 10, 11, 0x80, 0x80,
+                               0x80, 0x80, 2, 3, 8, 9);
+    __m128i L3 = _mm_setr_epi8(2, 3, 8, 9, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+                               0x80, 0x80, 10, 11, 0, 1);
+    __m128i L4 = _mm_setr_epi8(0x80, 0x80, 0x80, 0x80, 14, 15, 4, 5, 12, 13, 6,
+                               7, 0x80, 0x80, 0x80, 0x80);
     __m128i L5 = _mm_setr_epi8(12, 13, 0x80, 0x80, 2, 3, 0x80, 0x80, 0x80, 0x80,
                                8, 9, 4, 5, 0x80, 0x80);
     __m128i L6 = _mm_setr_epi8(0x80, 0x80, 6, 7, 0x80, 0x80, 8, 9, 2, 3, 0x80,
@@ -749,10 +749,14 @@ static void uBlock_256256_Encrypt(const uint8_t        Subkey[25][64],
     __m128i L8 = _mm_setr_epi8(0x80, 0x80, 0x80, 0x80, 10, 11, 4, 5, 12, 13,
                                0x80, 0x80, 0, 1, 0x80, 0x80);
 
-    __m128i c1 = _mm_loadu_si128((const __m128i *)DATA_c1);
-    __m128i c2 = _mm_loadu_si128((const __m128i *)DATA_c2);
-    __m128i c3 = _mm_loadu_si128((const __m128i *)DATA_c3);
-    __m128i c4 = _mm_loadu_si128((const __m128i *)DATA_c4);
+    __m128i c1 = _mm_setr_epi8(0, 0x80, 1, 0x80, 2, 0x80, 3, 0x80, 4, 0x80, 5,
+                               0x80, 6, 0x80, 7, 0x80);
+    __m128i c2 = _mm_setr_epi8(0x80, 0, 0x80, 1, 0x80, 2, 0x80, 3, 0x80, 4,
+                               0x80, 5, 0x80, 6, 0x80, 7);
+    __m128i c3 = _mm_setr_epi8(8, 0x80, 9, 0x80, 10, 0x80, 11, 0x80, 12, 0x80,
+                               13, 0x80, 14, 0x80, 15, 0x80);
+    __m128i c4 = _mm_setr_epi8(0x80, 8, 0x80, 9, 0x80, 10, 0x80, 11, 0x80, 12,
+                               0x80, 13, 0x80, 14, 0x80, 15);
 
     __m128i c5 = _mm_setr_epi8(0, 2, 4, 6, 8, 10, 12, 14, 0x80, 0x80, 0x80,
                                0x80, 0x80, 0x80, 0x80, 0x80);
@@ -787,7 +791,7 @@ static void uBlock_256256_Encrypt(const uint8_t        Subkey[25][64],
     state3 = _mm_xor_si128(t1, t2);
     state4 = _mm_xor_si128(t3, t4);
 
-    for (int i = 0; i < 24; i++)
+    for (i = 0; i < 24; i++)
     {
         k      = _mm_loadu_si128((__m128i *)Subkey[i]);
         state1 = _mm_xor_si128(state1, k);
@@ -888,14 +892,15 @@ static void uBlock_256256_Decrypt(const uint8_t        Subkey[25][64],
     __m128i A2    = _mm_loadu_si128((const __m128i *)DATA_A2);
     __m128i A3    = _mm_loadu_si128((const __m128i *)DATA_A3);
 
-    __m128i L1 = _mm_setr_epi8(0x80, 0x80, 10, 11, 0x80, 0x80, 4, 5, 6, 7, 0x80,
-                               0x80, 14, 15, 0x80, 0x80);
-    __m128i L2 = _mm_setr_epi8(2, 3, 0x80, 0x80, 10, 11, 0x80, 0x80, 0x80, 0x80,
-                               14, 15, 0x80, 0x80, 0, 1);
-    __m128i L3 = _mm_setr_epi8(8, 9, 0x80, 0x80, 2, 3, 0x80, 0x80, 0x80, 0x80,
-                               0, 1, 0x80, 0x80, 12, 13);
-    __m128i L4 = _mm_setr_epi8(0x80, 0x80, 6, 7, 0x80, 0x80, 8, 9, 12, 13, 0x80,
-                               0x80, 4, 5, 0x80, 0x80);
+    int     i;
+    __m128i L1 = _mm_setr_epi8(0x80, 0x80, 0x80, 0x80, 0, 1, 8, 9, 0x80, 0x80,
+                               0x80, 0x80, 10, 11, 2, 3);
+    __m128i L2 = _mm_setr_epi8(14, 15, 0, 1, 0x80, 0x80, 0x80, 0x80, 2, 3, 12,
+                               13, 0x80, 0x80, 0x80, 0x80);
+    __m128i L3 = _mm_setr_epi8(4, 5, 12, 13, 0x80, 0x80, 0x80, 0x80, 14, 15, 6,
+                               7, 0x80, 0x80, 0x80, 0x80);
+    __m128i L4 = _mm_setr_epi8(0x80, 0x80, 0x80, 0x80, 6, 7, 10, 11, 0x80, 0x80,
+                               0x80, 0x80, 8, 9, 4, 5);
     __m128i L5 = _mm_setr_epi8(0x80, 0x80, 4, 5, 12, 13, 0x80, 0x80, 10, 11,
                                0x80, 0x80, 0, 1, 0x80, 0x80);
     __m128i L6 = _mm_setr_epi8(2, 3, 0x80, 0x80, 0x80, 0x80, 10, 11, 0x80, 0x80,
@@ -905,10 +910,14 @@ static void uBlock_256256_Decrypt(const uint8_t        Subkey[25][64],
     __m128i L8 = _mm_setr_epi8(12, 13, 0x80, 0x80, 6, 7, 0x80, 0x80, 0x80, 0x80,
                                4, 5, 8, 9, 0x80, 0x80);
 
-    __m128i c1 = _mm_loadu_si128((const __m128i *)DATA_c1);
-    __m128i c2 = _mm_loadu_si128((const __m128i *)DATA_c2);
-    __m128i c3 = _mm_loadu_si128((const __m128i *)DATA_c3);
-    __m128i c4 = _mm_loadu_si128((const __m128i *)DATA_c4);
+    __m128i c1 = _mm_setr_epi8(0, 0x80, 1, 0x80, 2, 0x80, 3, 0x80, 4, 0x80, 5,
+                               0x80, 6, 0x80, 7, 0x80);
+    __m128i c2 = _mm_setr_epi8(0x80, 0, 0x80, 1, 0x80, 2, 0x80, 3, 0x80, 4,
+                               0x80, 5, 0x80, 6, 0x80, 7);
+    __m128i c3 = _mm_setr_epi8(8, 0x80, 9, 0x80, 10, 0x80, 11, 0x80, 12, 0x80,
+                               13, 0x80, 14, 0x80, 15, 0x80);
+    __m128i c4 = _mm_setr_epi8(0x80, 8, 0x80, 9, 0x80, 10, 0x80, 11, 0x80, 12,
+                               0x80, 13, 0x80, 14, 0x80, 15);
 
     __m128i c5 = _mm_setr_epi8(0, 2, 4, 6, 8, 10, 12, 14, 0x80, 0x80, 0x80,
                                0x80, 0x80, 0x80, 0x80, 0x80);
@@ -943,7 +952,7 @@ static void uBlock_256256_Decrypt(const uint8_t        Subkey[25][64],
     state3 = _mm_xor_si128(t1, t2);
     state4 = _mm_xor_si128(t3, t4);
 
-    for (int i = 24; i > 0; i--)
+    for (i = 24; i > 0; i--)
     {
         k      = _mm_loadu_si128((__m128i *)Subkey[i]);
         state1 = _mm_xor_si128(state1, k);
