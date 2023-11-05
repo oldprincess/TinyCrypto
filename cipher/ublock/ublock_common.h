@@ -2,8 +2,8 @@
  * WU W L, ZHANG L, ZHENG Y F, LI L C. The block cipher uBlock[J]. Journal of
  * Cryptologic Research, 2019, 6(6): 690–703.
  */
-#ifndef _TINY_CRYPTO_CIPHER_UBLOCK_LUT_H
-#define _TINY_CRYPTO_CIPHER_UBLOCK_LUT_H
+#ifndef _TINY_CRYPTO_CIPHER_UBLOCK_COMMON_H
+#define _TINY_CRYPTO_CIPHER_UBLOCK_COMMON_H
 
 #include <stdint.h>
 #include <stddef.h>
