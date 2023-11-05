@@ -58,6 +58,14 @@ g++ -DTINY_CRYPTO_TEST -o main.exe sm4_lut.cpp test_sm4_lut.cpp
 
 > WU W L, ZHANG L, ZHENG Y F, LI L C. The block cipher uBlock[J]. Journal of Cryptologic Research, 2019, 6(6): 690–703.
 
+* ublock common
+
+```
+g++ -DTINY_CRYPTO_TEST -o main.exe ublock_common.cpp test_ublock_common.cpp
+```
+
+* ublock standard
+
 > 全国密码算法设计竞赛分组算法（按第一设计者姓氏笔画为序）
 > https://sfjs.cacrnet.org.cn/site/term/list_73_1.html
 
