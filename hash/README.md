@@ -59,14 +59,15 @@ g++ -DTINY_CRYPTO_TEST -o main.exe sha1_standard.cpp test_sha1_standard.cpp
 > FIPS 180-4 Secure Hash Standard (SHS)
 > https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf
 
+* sha2 standard
+
 > US Secure Hash Algorithms(SHA and SHA-based HMAC and HKDF)
 > https://www.rfc-editor.org/rfc/rfc6234
 
-* sha2
-
-sha224, sha256, sha384, sha512, sha512/t
+sha224, sha256, sha384, sha512
 
 ```
+g++ -DTINY_CRYPTO_TEST -o main.exe sha2_standard.cpp test_sha2_standard.cpp
 ```
 
 ## SM3

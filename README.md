@@ -17,4 +17,5 @@
 * GHash
 * MD5
 * SHA1
+* SHA2
 * SM3
