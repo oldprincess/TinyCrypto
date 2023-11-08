@@ -277,8 +277,11 @@ int main()
     return 0;
 }
 
+// clang-format off
+// # python test file
 // import hashlib
 // import os
+//
 //
 // def dump_mem(prefix: str, data: bytes, end: str):
 //     print(prefix, end='')
@@ -286,14 +289,15 @@ int main()
 //         print("0x" + hex(item)[2::].rjust(2, '0'), end=', ')
 //     print(end)
 //
+//
 // SIZE = [0, 32, 64, 128, 129]
 // for i in range(len(SIZE)):
 //     msg = os.urandom(SIZE[i])
 //     dump_mem(f"static uint8_t msg_{i}[{SIZE[i]}] = " + "{", msg, "};")
-//     dump_mem(f"static uint8_t digest224[28]_{i} = " + "{",
-//     hashlib.sha224(msg).digest(), "};") dump_mem(f"static uint8_t
-//     digest256[32]_{i} = " + "{", hashlib.sha256(msg).digest(), "};")
-//     dump_mem(f"static uint8_t digest384[48]_{i} = " + "{",
-//     hashlib.sha384(msg).digest(), "};") dump_mem(f"static uint8_t
-//     digest512[64]_{i} = " + "{", hashlib.sha512(msg).digest(), "};")
+//     dump_mem(f"static uint8_t digest{i}_224[28] = " + "{", hashlib.sha224(msg).digest(), "};")
+//     dump_mem(f"static uint8_t digest{i}_256[32] = " + "{", hashlib.sha256(msg).digest(), "};")
+//     dump_mem(f"static uint8_t digest{i}_384[48] = " + "{", hashlib.sha384(msg).digest(), "};")
+//     dump_mem(f"static uint8_t digest{i}_512[64] = " + "{", hashlib.sha512(msg).digest(), "};")
+// clang-format on
+
 #endif
