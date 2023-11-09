@@ -275,24 +275,16 @@ void uint256_mont_to_bytes(const Mont256CTX* ctx,
     uint256_to_bytes(bytes, t);
 }
 
-static void uint256_mont_from_bytes_less32(const Mont256CTX* ctx,
-                                           uint32_t          num[8],
-                                           const uint8_t*    bytes,
-                                           size_t            bytes_len)
+static void uint256_mont_sll_n(const Mont256CTX* ctx,
+                               uint32_t          r[8],
+                               const uint32_t    a[8],
+                               size_t            n)
 {
-    // Zero Padding: 000...000 | bytes
-    uint8_t bytes_buf[32];
-    size_t  diff = 32 - bytes_len;
-    for (size_t i = 0; i < diff; i++)
+    uint256_mont_cpy(ctx, r, a);
+    for (size_t i = 0; i < n; i++)
     {
-        bytes_buf[i] = 0;
+        uint256_mont_dbl(ctx, r, r);
     }
-    for (size_t i = 0; i < bytes_len; i++)
-    {
-        bytes_buf[diff + i] = bytes[i];
-    }
-    uint256_mont_from_bytes(ctx, num, bytes_buf);
-    return;
 }
 
 void uint256_mont_from_bytes_ex(const Mont256CTX* ctx,
@@ -305,35 +297,24 @@ void uint256_mont_from_bytes_ex(const Mont256CTX* ctx,
         uint256_mont_from_bytes(ctx, num, bytes);
         return;
     }
-    if (bytes_len < 32)
+    uint32_t t[8];
+    uint8_t  tmp_buf[32] = {0};
+    uint256_mont_set_zero(ctx, num);
+    while (bytes_len >= 32)
     {
-        uint256_mont_from_bytes_less32(ctx, num, bytes, bytes_len);
-        return;
+        uint256_mont_sll_n(ctx, num, num, 32);
+        uint256_mont_from_bytes(ctx, t, bytes);
+        uint256_mont_add(ctx, num, num, t);
+        bytes_len -= 32, bytes += 32;
     }
-    assert(0);
-    // todo
-    // uint32_t  T[16], t[8];
-    // uint32_t *Th = T + 8, *Tl = T;
-    // uint256_from_bytes(Tl, bytes + 0);
-    // bytes += 32, bytes_len -= 32;
-    // while (bytes_len >= 32)
-    //{
-    //    uint256_cpy(Th, Tl);
-    //    uint256_from_bytes(Tl, bytes);
-    //    bytes += 32, bytes_len -= 32;
-    //    uint256_mont_redc(ctx, t, T);              // t= T*R^-1 mod P
-    //    uint256_mont_mul(ctx, Tl, t, ctx->R_POW2); // t= T mod P
-    //}
-    // if (bytes_len == 0)
-    //{
-    //    uint256_to_mont(ctx, num, Tl);
-    //    return;
-    //}
-    // else
-    //{
-    //    uint8_t buf[64];
-
-    //}
+    while (bytes_len)
+    {
+        uint256_mont_sll_n(ctx, num, num, 8);
+        tmp_buf[31] = *bytes;
+        uint256_mont_from_bytes(ctx, t, tmp_buf);
+        uint256_mont_add(ctx, num, num, t);
+        bytes_len -= 1, bytes += 1;
+    }
 }
 
 }; // namespace tc
