@@ -166,7 +166,18 @@ void uint256_mont_div2(const Mont256CTX* ctx,
                        uint32_t          quotient[8],
                        const uint32_t    dividend[8])
 {
-    assert(0);
+    int             c   = 0;
+    const uint32_t* ref = dividend;
+    if (dividend[0] & 1)
+    {
+        c   = uint256_add_carry(quotient, dividend, ctx->P);
+        ref = quotient;
+    }
+    for (int i = 0; i < 7; i++)
+    {
+        quotient[i] = (ref[i + 1] << 31) | (ref[i] >> 1);
+    }
+    quotient[7] = (c << 31) | (ref[7] >> 1);
 }
 
 void uint256_mont_pow(const Mont256CTX* ctx,
