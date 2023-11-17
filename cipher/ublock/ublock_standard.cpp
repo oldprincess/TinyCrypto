@@ -1,16 +1,37 @@
-/**
- * WU W L, ZHANG L, ZHENG Y F, LI L C. The block cipher uBlock[J]. Journal of
- * Cryptologic Research, 2019, 6(6): 690–703.
- *
- * https://sfjs.cacrnet.org.cn/site/term/list_76_1.html
- */
+/*
+The MIT License (MIT)
 
+Copyright (c) 2023 oldprincess, https://github.com/oldprincess/TinyCrypto
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/*
+WU W L, ZHANG L, ZHENG Y F, LI L C. The block cipher uBlock[J]. Journal of
+Cryptologic Research, 2019, 6(6): 690-703.
+*/
 #include "ublock_standard.h"
 #include <immintrin.h>
 
 namespace tc {
 
-static uint8_t RC[24][16] = {
+static uint8_t RC[24 * 16] = {
     0x9, 0x8, 0x8, 0xc, 0xc, 0x9, 0xd, 0xd, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
     0x0, 0xf, 0x0, 0xe, 0x4, 0xa, 0x1, 0xb, 0x5, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
     0x0, 0x0, 0x2, 0x1, 0x3, 0x5, 0x7, 0x0, 0x6, 0x4, 0x0, 0x0, 0x0, 0x0, 0x0,
@@ -146,7 +167,7 @@ static void uBlock_128128_KeySchedule(uint8_t       sub_key[17][32],
     {
         state1 = _mm_shuffle_epi8(state1, c8);
 
-        k  = _mm_loadu_si128((const __m128i *)RC[i - 1]);
+        k  = _mm_loadu_si128((const __m128i *)(RC + 16 * (i - 1)));
         k  = _mm_xor_si128(k, state1);
         t1 = _mm_shuffle_epi8(S, k);
         t2 = _mm_shuffle_epi8(SK, k);
@@ -192,22 +213,21 @@ static void uBlock_128128_Encrypt(const uint8_t sub_key[17][32],
         0x02, 0x03, 0x0c, 0x0d, 0x08, 0x09, 0x06, 0x07,
     };
 
-    __m128i S     = _mm_loadu_si128((const __m128i *)DATA_S);
-    __m128i S_Inv = _mm_loadu_si128((const __m128i *)DATA_S_Inv);
-    __m128i con   = _mm_loadu_si128((const __m128i *)DATA_con);
-    __m128i A1    = _mm_loadu_si128((const __m128i *)DATA_A1);
-    __m128i A2    = _mm_loadu_si128((const __m128i *)DATA_A2);
-    __m128i A3    = _mm_loadu_si128((const __m128i *)DATA_A3);
-    __m128i L1    = _mm_loadu_si128((const __m128i *)DATA_L1);
-    __m128i L2    = _mm_loadu_si128((const __m128i *)DATA_L2);
-    __m128i c1    = _mm_loadu_si128((const __m128i *)DATA_c1);
-    __m128i c2    = _mm_loadu_si128((const __m128i *)DATA_c2);
-    __m128i c3    = _mm_loadu_si128((const __m128i *)DATA_c3);
-    __m128i c4    = _mm_loadu_si128((const __m128i *)DATA_c4);
-    __m128i c5    = _mm_loadu_si128((const __m128i *)DATA_c5);
-    __m128i c6    = _mm_loadu_si128((const __m128i *)DATA_c6);
-    __m128i c7    = _mm_loadu_si128((const __m128i *)DATA_c7);
-    __m128i c8    = _mm_loadu_si128((const __m128i *)DATA_c8);
+    __m128i S   = _mm_loadu_si128((const __m128i *)DATA_S);
+    __m128i con = _mm_loadu_si128((const __m128i *)DATA_con);
+    __m128i A1  = _mm_loadu_si128((const __m128i *)DATA_A1);
+    __m128i A2  = _mm_loadu_si128((const __m128i *)DATA_A2);
+    __m128i A3  = _mm_loadu_si128((const __m128i *)DATA_A3);
+    __m128i L1  = _mm_loadu_si128((const __m128i *)DATA_L1);
+    __m128i L2  = _mm_loadu_si128((const __m128i *)DATA_L2);
+    __m128i c1  = _mm_loadu_si128((const __m128i *)DATA_c1);
+    __m128i c2  = _mm_loadu_si128((const __m128i *)DATA_c2);
+    __m128i c3  = _mm_loadu_si128((const __m128i *)DATA_c3);
+    __m128i c4  = _mm_loadu_si128((const __m128i *)DATA_c4);
+    __m128i c5  = _mm_loadu_si128((const __m128i *)DATA_c5);
+    __m128i c6  = _mm_loadu_si128((const __m128i *)DATA_c6);
+    __m128i c7  = _mm_loadu_si128((const __m128i *)DATA_c7);
+    __m128i c8  = _mm_loadu_si128((const __m128i *)DATA_c8);
     __m128i state1, state2, k, t1, t2, t3, t4;
 
     state2 = _mm_loadu_si128((__m128i *)plaintext);
@@ -294,7 +314,6 @@ static void uBlock_128128_Decrypt(const uint8_t sub_key[17][32],
         0x0c, 0x0d, 0x04, 0x05, 0x0a, 0x0b, 0x02, 0x03,
     };
 
-    __m128i S     = _mm_loadu_si128((const __m128i *)DATA_S);
     __m128i S_Inv = _mm_loadu_si128((const __m128i *)DATA_S_Inv);
     __m128i con   = _mm_loadu_si128((const __m128i *)DATA_con);
     __m128i A1    = _mm_loadu_si128((const __m128i *)DATA_A1);
@@ -420,7 +439,7 @@ static void uBlock_128256_KeySchedule(uint8_t       sub_key[25][32],
         state1 = _mm_shuffle_epi8(state1, c5);
         state2 = _mm_shuffle_epi8(state2, c6);
 
-        k      = _mm_loadu_si128((__m128i *)RC[i - 1]);
+        k      = _mm_loadu_si128((const __m128i *)(RC + 16 * (i - 1)));
         k      = _mm_xor_si128(k, state1);
         k      = _mm_shuffle_epi8(S, k);
         state3 = _mm_xor_si128(state3, k);
@@ -467,14 +486,13 @@ static void uBlock_128256_Encrypt(const uint8_t sub_key[25][32],
         0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
         0x01, 0x03, 0x05, 0x07, 0x09, 0x0b, 0x0d, 0x0f,
     };
-    __m128i S     = _mm_loadu_si128((const __m128i *)DATA_S);
-    __m128i S_Inv = _mm_loadu_si128((const __m128i *)DATA_S_Inv);
-    __m128i con   = _mm_loadu_si128((const __m128i *)DATA_con);
-    __m128i A1    = _mm_loadu_si128((const __m128i *)DATA_A1);
-    __m128i A2    = _mm_loadu_si128((const __m128i *)DATA_A2);
-    __m128i A3    = _mm_loadu_si128((const __m128i *)DATA_A3);
-    __m128i L1    = _mm_loadu_si128((const __m128i *)DATA_L1);
-    __m128i L2    = _mm_loadu_si128((const __m128i *)DATA_L2);
+    __m128i S   = _mm_loadu_si128((const __m128i *)DATA_S);
+    __m128i con = _mm_loadu_si128((const __m128i *)DATA_con);
+    __m128i A1  = _mm_loadu_si128((const __m128i *)DATA_A1);
+    __m128i A2  = _mm_loadu_si128((const __m128i *)DATA_A2);
+    __m128i A3  = _mm_loadu_si128((const __m128i *)DATA_A3);
+    __m128i L1  = _mm_loadu_si128((const __m128i *)DATA_L1);
+    __m128i L2  = _mm_loadu_si128((const __m128i *)DATA_L2);
 
     __m128i c1 = _mm_loadu_si128((const __m128i *)DATA_c1);
     __m128i c2 = _mm_loadu_si128((const __m128i *)DATA_c2);
@@ -487,7 +505,7 @@ static void uBlock_128256_Encrypt(const uint8_t sub_key[25][32],
 
     __m128i state1, state2, k, t1, t2, t3, t4;
 
-    state2 = _mm_loadu_si128((__m128i *)plaintext);
+    state2 = _mm_loadu_si128((const __m128i *)plaintext);
     state1 = _mm_srli_epi16(state2, 4);
     state1 = _mm_and_si128(state1, con);
     state2 = _mm_and_si128(state2, con);
@@ -500,9 +518,9 @@ static void uBlock_128256_Encrypt(const uint8_t sub_key[25][32],
 
     for (int i = 0; i < 24; i++)
     {
-        k      = _mm_loadu_si128((__m128i *)sub_key[i]);
+        k      = _mm_loadu_si128((const __m128i *)sub_key[i]);
         state1 = _mm_xor_si128(state1, k);
-        k      = _mm_loadu_si128((__m128i *)(sub_key[i] + 16));
+        k      = _mm_loadu_si128((const __m128i *)(sub_key[i] + 16));
         state2 = _mm_xor_si128(state2, k);
 
         state1 = _mm_shuffle_epi8(S, state1);
@@ -523,9 +541,9 @@ static void uBlock_128256_Encrypt(const uint8_t sub_key[25][32],
         state2 = _mm_shuffle_epi8(state2, L2);
     }
 
-    k      = _mm_loadu_si128((__m128i *)sub_key[24]);
+    k      = _mm_loadu_si128((const __m128i *)sub_key[24]);
     state1 = _mm_xor_si128(state1, k);
-    k      = _mm_loadu_si128((__m128i *)(sub_key[24] + 16));
+    k      = _mm_loadu_si128((const __m128i *)(sub_key[24] + 16));
     state2 = _mm_xor_si128(state2, k);
 
     t1 = _mm_shuffle_epi8(state1, c5);
@@ -573,7 +591,6 @@ static void uBlock_128256_Decrypt(const uint8_t sub_key[25][32],
         0x0c, 0x0d, 0x04, 0x05, 0x0a, 0x0b, 0x02, 0x03,
     };
 
-    __m128i S     = _mm_loadu_si128((const __m128i *)DATA_S);
     __m128i S_Inv = _mm_loadu_si128((const __m128i *)DATA_S_Inv);
     __m128i con   = _mm_loadu_si128((const __m128i *)DATA_con);
     __m128i A1    = _mm_loadu_si128((const __m128i *)DATA_A1);
@@ -591,7 +608,7 @@ static void uBlock_128256_Decrypt(const uint8_t sub_key[25][32],
     __m128i c8    = _mm_loadu_si128((const __m128i *)DATA_c8);
     __m128i state1, state2, k, t1, t2, t3, t4;
 
-    state2 = _mm_loadu_si128((__m128i *)ciphertext);
+    state2 = _mm_loadu_si128((const __m128i *)ciphertext);
     state1 = _mm_srli_epi16(state2, 4);
     state1 = _mm_and_si128(state1, con);
     state2 = _mm_and_si128(state2, con);
@@ -604,9 +621,9 @@ static void uBlock_128256_Decrypt(const uint8_t sub_key[25][32],
 
     for (int i = 24; i > 0; i--)
     {
-        k      = _mm_loadu_si128((__m128i *)sub_key[i]);
+        k      = _mm_loadu_si128((const __m128i *)sub_key[i]);
         state1 = _mm_xor_si128(state1, k);
-        k      = _mm_loadu_si128((__m128i *)(sub_key[i] + 16));
+        k      = _mm_loadu_si128((const __m128i *)(sub_key[i] + 16));
         state2 = _mm_xor_si128(state2, k);
 
         state1 = _mm_shuffle_epi8(state1, L1);
@@ -627,9 +644,9 @@ static void uBlock_128256_Decrypt(const uint8_t sub_key[25][32],
         state2 = _mm_shuffle_epi8(S_Inv, state2);
     }
 
-    k      = _mm_loadu_si128((__m128i *)sub_key[0]);
+    k      = _mm_loadu_si128((const __m128i *)sub_key[0]);
     state1 = _mm_xor_si128(state1, k);
-    k      = _mm_loadu_si128((__m128i *)(sub_key[0] + 16));
+    k      = _mm_loadu_si128((const __m128i *)(sub_key[0] + 16));
     state2 = _mm_xor_si128(state2, k);
 
     t1 = _mm_shuffle_epi8(state1, c5);
@@ -668,7 +685,7 @@ static void uBlock_256256_KeySchedule(uint8_t       sub_key[25][64],
 
     __m128i state1, state2, state3, state4, k, t1, t2, t3, t4;
 
-    state2 = _mm_loadu_si128((__m128i *)user_key);
+    state2 = _mm_loadu_si128((const __m128i *)user_key);
     state1 = _mm_srli_epi16(state2, 4);
     state1 = _mm_and_si128(state1, con);
     state2 = _mm_and_si128(state2, con);
@@ -679,7 +696,7 @@ static void uBlock_256256_KeySchedule(uint8_t       sub_key[25][64],
     state1 = _mm_xor_si128(t1, t2);
     state2 = _mm_xor_si128(t3, t4);
 
-    state4 = _mm_loadu_si128((__m128i *)(user_key + 16));
+    state4 = _mm_loadu_si128((const __m128i *)(user_key + 16));
     state3 = _mm_srli_epi16(state4, 4);
     state3 = _mm_and_si128(state3, con);
     state4 = _mm_and_si128(state4, con);
@@ -700,7 +717,7 @@ static void uBlock_256256_KeySchedule(uint8_t       sub_key[25][64],
         state1 = _mm_shuffle_epi8(state1, c5);
         state2 = _mm_shuffle_epi8(state2, c6);
 
-        k      = _mm_loadu_si128((__m128i *)RC[i - 1]);
+        k      = _mm_loadu_si128((const __m128i *)(RC + 16 * (i - 1)));
         k      = _mm_xor_si128(k, state1);
         k      = _mm_shuffle_epi8(S, k);
         state3 = _mm_xor_si128(state3, k);
@@ -721,55 +738,55 @@ static void uBlock_256256_KeySchedule(uint8_t       sub_key[25][64],
     return;
 }
 
-static void uBlock_256256_Encrypt(const uint8_t        Subkey[25][64],
-                                  unsigned char       *cipher,
-                                  const unsigned char *plain)
+static void uBlock_256256_Encrypt(const uint8_t  sub_key[25][64],
+                                  uint8_t       *ciphertext,
+                                  const uint8_t *plaintext)
 {
-    __m128i S     = _mm_loadu_si128((const __m128i *)DATA_S);
-    __m128i S_Inv = _mm_loadu_si128((const __m128i *)DATA_S_Inv);
-    __m128i con   = _mm_loadu_si128((const __m128i *)DATA_con);
-    __m128i A1    = _mm_loadu_si128((const __m128i *)DATA_A1);
-    __m128i A2    = _mm_loadu_si128((const __m128i *)DATA_A2);
-    __m128i A3    = _mm_loadu_si128((const __m128i *)DATA_A3);
+    __m128i S   = _mm_loadu_si128((const __m128i *)DATA_S);
+    __m128i con = _mm_loadu_si128((const __m128i *)DATA_con);
+    __m128i A1  = _mm_loadu_si128((const __m128i *)DATA_A1);
+    __m128i A2  = _mm_loadu_si128((const __m128i *)DATA_A2);
+    __m128i A3  = _mm_loadu_si128((const __m128i *)DATA_A3);
+
     int     i;
-    __m128i L1 = _mm_setr_epi8(4, 5, 14, 15, 0x80, 0x80, 0x80, 0x80, 6, 7, 12,
-                               13, 0x80, 0x80, 0x80, 0x80);
-    __m128i L2 = _mm_setr_epi8(0x80, 0x80, 0x80, 0x80, 0, 1, 10, 11, 0x80, 0x80,
-                               0x80, 0x80, 2, 3, 8, 9);
-    __m128i L3 = _mm_setr_epi8(2, 3, 8, 9, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-                               0x80, 0x80, 10, 11, 0, 1);
-    __m128i L4 = _mm_setr_epi8(0x80, 0x80, 0x80, 0x80, 14, 15, 4, 5, 12, 13, 6,
-                               7, 0x80, 0x80, 0x80, 0x80);
-    __m128i L5 = _mm_setr_epi8(12, 13, 0x80, 0x80, 2, 3, 0x80, 0x80, 0x80, 0x80,
-                               8, 9, 4, 5, 0x80, 0x80);
-    __m128i L6 = _mm_setr_epi8(0x80, 0x80, 6, 7, 0x80, 0x80, 8, 9, 2, 3, 0x80,
-                               0x80, 0x80, 0x80, 14, 15);
-    __m128i L7 = _mm_setr_epi8(14, 15, 0, 1, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-                               6, 7, 0x80, 0x80, 10, 11);
-    __m128i L8 = _mm_setr_epi8(0x80, 0x80, 0x80, 0x80, 10, 11, 4, 5, 12, 13,
-                               0x80, 0x80, 0, 1, 0x80, 0x80);
+    __m128i L1 = _mm_setr_epi8(4, 5, 14, 15, -1, -1, -1, -1, 6, 7, 12, 13, -1,
+                               -1, -1, -1);
+    __m128i L2 =
+        _mm_setr_epi8(-1, -1, -1, -1, 0, 1, 10, 11, -1, -1, -1, -1, 2, 3, 8, 9);
+    __m128i L3 =
+        _mm_setr_epi8(2, 3, 8, 9, -1, -1, -1, -1, -1, -1, -1, -1, 10, 11, 0, 1);
+    __m128i L4 = _mm_setr_epi8(-1, -1, -1, -1, 14, 15, 4, 5, 12, 13, 6, 7, -1,
+                               -1, -1, -1);
+    __m128i L5 =
+        _mm_setr_epi8(12, 13, -1, -1, 2, 3, -1, -1, -1, -1, 8, 9, 4, 5, -1, -1);
+    __m128i L6 =
+        _mm_setr_epi8(-1, -1, 6, 7, -1, -1, 8, 9, 2, 3, -1, -1, -1, -1, 14, 15);
+    __m128i L7 = _mm_setr_epi8(14, 15, 0, 1, -1, -1, -1, -1, -1, -1, 6, 7, -1,
+                               -1, 10, 11);
+    __m128i L8 = _mm_setr_epi8(-1, -1, -1, -1, 10, 11, 4, 5, 12, 13, -1, -1, 0,
+                               1, -1, -1);
 
-    __m128i c1 = _mm_setr_epi8(0, 0x80, 1, 0x80, 2, 0x80, 3, 0x80, 4, 0x80, 5,
-                               0x80, 6, 0x80, 7, 0x80);
-    __m128i c2 = _mm_setr_epi8(0x80, 0, 0x80, 1, 0x80, 2, 0x80, 3, 0x80, 4,
-                               0x80, 5, 0x80, 6, 0x80, 7);
-    __m128i c3 = _mm_setr_epi8(8, 0x80, 9, 0x80, 10, 0x80, 11, 0x80, 12, 0x80,
-                               13, 0x80, 14, 0x80, 15, 0x80);
-    __m128i c4 = _mm_setr_epi8(0x80, 8, 0x80, 9, 0x80, 10, 0x80, 11, 0x80, 12,
-                               0x80, 13, 0x80, 14, 0x80, 15);
+    __m128i c1 =
+        _mm_setr_epi8(0, -1, 1, -1, 2, -1, 3, -1, 4, -1, 5, -1, 6, -1, 7, -1);
+    __m128i c2 =
+        _mm_setr_epi8(-1, 0, -1, 1, -1, 2, -1, 3, -1, 4, -1, 5, -1, 6, -1, 7);
+    __m128i c3 = _mm_setr_epi8(8, -1, 9, -1, 10, -1, 11, -1, 12, -1, 13, -1, 14,
+                               -1, 15, -1);
+    __m128i c4 = _mm_setr_epi8(-1, 8, -1, 9, -1, 10, -1, 11, -1, 12, -1, 13, -1,
+                               14, -1, 15);
 
-    __m128i c5 = _mm_setr_epi8(0, 2, 4, 6, 8, 10, 12, 14, 0x80, 0x80, 0x80,
-                               0x80, 0x80, 0x80, 0x80, 0x80);
-    __m128i c6 = _mm_setr_epi8(0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-                               0, 2, 4, 6, 8, 10, 12, 14);
-    __m128i c7 = _mm_setr_epi8(1, 3, 5, 7, 9, 11, 13, 15, 0x80, 0x80, 0x80,
-                               0x80, 0x80, 0x80, 0x80, 0x80);
-    __m128i c8 = _mm_setr_epi8(0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-                               1, 3, 5, 7, 9, 11, 13, 15);
+    __m128i c5 = _mm_setr_epi8(0, 2, 4, 6, 8, 10, 12, 14, -1, -1, -1, -1, -1,
+                               -1, -1, -1);
+    __m128i c6 = _mm_setr_epi8(-1, -1, -1, -1, -1, -1, -1, -1, 0, 2, 4, 6, 8,
+                               10, 12, 14);
+    __m128i c7 = _mm_setr_epi8(1, 3, 5, 7, 9, 11, 13, 15, -1, -1, -1, -1, -1,
+                               -1, -1, -1);
+    __m128i c8 = _mm_setr_epi8(-1, -1, -1, -1, -1, -1, -1, -1, 1, 3, 5, 7, 9,
+                               11, 13, 15);
 
     __m128i state1, state2, state3, state4, k, t1, t2, t3, t4;
 
-    state2 = _mm_loadu_si128((__m128i *)plain);
+    state2 = _mm_loadu_si128((const __m128i *)plaintext);
     state1 = _mm_srli_epi16(state2, 4);
     state1 = _mm_and_si128(state1, con);
     state2 = _mm_and_si128(state2, con);
@@ -780,7 +797,7 @@ static void uBlock_256256_Encrypt(const uint8_t        Subkey[25][64],
     state1 = _mm_xor_si128(t1, t2);
     state2 = _mm_xor_si128(t3, t4);
 
-    state4 = _mm_loadu_si128((__m128i *)(plain + 16));
+    state4 = _mm_loadu_si128((const __m128i *)(plaintext + 16));
     state3 = _mm_srli_epi16(state4, 4);
     state3 = _mm_and_si128(state3, con);
     state4 = _mm_and_si128(state4, con);
@@ -793,13 +810,13 @@ static void uBlock_256256_Encrypt(const uint8_t        Subkey[25][64],
 
     for (i = 0; i < 24; i++)
     {
-        k      = _mm_loadu_si128((__m128i *)Subkey[i]);
+        k      = _mm_loadu_si128((const __m128i *)sub_key[i]);
         state1 = _mm_xor_si128(state1, k);
-        k      = _mm_loadu_si128((__m128i *)(Subkey[i] + 16));
+        k      = _mm_loadu_si128((const __m128i *)(sub_key[i] + 16));
         state2 = _mm_xor_si128(state2, k);
-        k      = _mm_loadu_si128((__m128i *)(Subkey[i] + 32));
+        k      = _mm_loadu_si128((const __m128i *)(sub_key[i] + 32));
         state3 = _mm_xor_si128(state3, k);
-        k      = _mm_loadu_si128((__m128i *)(Subkey[i] + 48));
+        k      = _mm_loadu_si128((const __m128i *)(sub_key[i] + 48));
         state4 = _mm_xor_si128(state4, k);
 
         state1 = _mm_shuffle_epi8(S, state1);
@@ -848,13 +865,13 @@ static void uBlock_256256_Encrypt(const uint8_t        Subkey[25][64],
         state4 = _mm_xor_si128(t3, t4);
     }
 
-    k      = _mm_loadu_si128((__m128i *)Subkey[24]);
+    k      = _mm_loadu_si128((const __m128i *)sub_key[24]);
     state1 = _mm_xor_si128(state1, k);
-    k      = _mm_loadu_si128((__m128i *)(Subkey[24] + 16));
+    k      = _mm_loadu_si128((const __m128i *)(sub_key[24] + 16));
     state2 = _mm_xor_si128(state2, k);
-    k      = _mm_loadu_si128((__m128i *)(Subkey[24] + 32));
+    k      = _mm_loadu_si128((const __m128i *)(sub_key[24] + 32));
     state3 = _mm_xor_si128(state3, k);
-    k      = _mm_loadu_si128((__m128i *)(Subkey[24] + 48));
+    k      = _mm_loadu_si128((const __m128i *)(sub_key[24] + 48));
     state4 = _mm_xor_si128(state4, k);
 
     t1     = _mm_shuffle_epi8(state1, c5);
@@ -875,17 +892,16 @@ static void uBlock_256256_Encrypt(const uint8_t        Subkey[25][64],
     state3 = _mm_slli_epi16(state3, 4);
     state3 = _mm_xor_si128(state3, state4);
 
-    _mm_storeu_si128((__m128i *)cipher, state1);
-    _mm_storeu_si128((__m128i *)(cipher + 16), state3);
+    _mm_storeu_si128((__m128i *)ciphertext, state1);
+    _mm_storeu_si128((__m128i *)(ciphertext + 16), state3);
 
     return;
 }
 
-static void uBlock_256256_Decrypt(const uint8_t        Subkey[25][64],
-                                  unsigned char       *plain,
-                                  const unsigned char *cipher)
+static void uBlock_256256_Decrypt(const uint8_t  sub_key[25][64],
+                                  uint8_t       *plaintext,
+                                  const uint8_t *ciphertext)
 {
-    __m128i S     = _mm_loadu_si128((const __m128i *)DATA_S);
     __m128i S_Inv = _mm_loadu_si128((const __m128i *)DATA_S_Inv);
     __m128i con   = _mm_loadu_si128((const __m128i *)DATA_con);
     __m128i A1    = _mm_loadu_si128((const __m128i *)DATA_A1);
@@ -893,44 +909,44 @@ static void uBlock_256256_Decrypt(const uint8_t        Subkey[25][64],
     __m128i A3    = _mm_loadu_si128((const __m128i *)DATA_A3);
 
     int     i;
-    __m128i L1 = _mm_setr_epi8(0x80, 0x80, 0x80, 0x80, 0, 1, 8, 9, 0x80, 0x80,
-                               0x80, 0x80, 10, 11, 2, 3);
-    __m128i L2 = _mm_setr_epi8(14, 15, 0, 1, 0x80, 0x80, 0x80, 0x80, 2, 3, 12,
-                               13, 0x80, 0x80, 0x80, 0x80);
-    __m128i L3 = _mm_setr_epi8(4, 5, 12, 13, 0x80, 0x80, 0x80, 0x80, 14, 15, 6,
-                               7, 0x80, 0x80, 0x80, 0x80);
-    __m128i L4 = _mm_setr_epi8(0x80, 0x80, 0x80, 0x80, 6, 7, 10, 11, 0x80, 0x80,
-                               0x80, 0x80, 8, 9, 4, 5);
-    __m128i L5 = _mm_setr_epi8(0x80, 0x80, 4, 5, 12, 13, 0x80, 0x80, 10, 11,
-                               0x80, 0x80, 0, 1, 0x80, 0x80);
-    __m128i L6 = _mm_setr_epi8(2, 3, 0x80, 0x80, 0x80, 0x80, 10, 11, 0x80, 0x80,
-                               14, 15, 0x80, 0x80, 0, 1);
-    __m128i L7 = _mm_setr_epi8(0x80, 0x80, 8, 9, 0x80, 0x80, 2, 3, 6, 7, 0x80,
-                               0x80, 0x80, 0x80, 14, 15);
-    __m128i L8 = _mm_setr_epi8(12, 13, 0x80, 0x80, 6, 7, 0x80, 0x80, 0x80, 0x80,
-                               4, 5, 8, 9, 0x80, 0x80);
+    __m128i L1 =
+        _mm_setr_epi8(-1, -1, -1, -1, 0, 1, 8, 9, -1, -1, -1, -1, 10, 11, 2, 3);
+    __m128i L2 = _mm_setr_epi8(14, 15, 0, 1, -1, -1, -1, -1, 2, 3, 12, 13, -1,
+                               -1, -1, -1);
+    __m128i L3 = _mm_setr_epi8(4, 5, 12, 13, -1, -1, -1, -1, 14, 15, 6, 7, -1,
+                               -1, -1, -1);
+    __m128i L4 =
+        _mm_setr_epi8(-1, -1, -1, -1, 6, 7, 10, 11, -1, -1, -1, -1, 8, 9, 4, 5);
+    __m128i L5 = _mm_setr_epi8(-1, -1, 4, 5, 12, 13, -1, -1, 10, 11, -1, -1, 0,
+                               1, -1, -1);
+    __m128i L6 = _mm_setr_epi8(2, 3, -1, -1, -1, -1, 10, 11, -1, -1, 14, 15, -1,
+                               -1, 0, 1);
+    __m128i L7 =
+        _mm_setr_epi8(-1, -1, 8, 9, -1, -1, 2, 3, 6, 7, -1, -1, -1, -1, 14, 15);
+    __m128i L8 =
+        _mm_setr_epi8(12, 13, -1, -1, 6, 7, -1, -1, -1, -1, 4, 5, 8, 9, -1, -1);
 
-    __m128i c1 = _mm_setr_epi8(0, 0x80, 1, 0x80, 2, 0x80, 3, 0x80, 4, 0x80, 5,
-                               0x80, 6, 0x80, 7, 0x80);
-    __m128i c2 = _mm_setr_epi8(0x80, 0, 0x80, 1, 0x80, 2, 0x80, 3, 0x80, 4,
-                               0x80, 5, 0x80, 6, 0x80, 7);
-    __m128i c3 = _mm_setr_epi8(8, 0x80, 9, 0x80, 10, 0x80, 11, 0x80, 12, 0x80,
-                               13, 0x80, 14, 0x80, 15, 0x80);
-    __m128i c4 = _mm_setr_epi8(0x80, 8, 0x80, 9, 0x80, 10, 0x80, 11, 0x80, 12,
-                               0x80, 13, 0x80, 14, 0x80, 15);
+    __m128i c1 =
+        _mm_setr_epi8(0, -1, 1, -1, 2, -1, 3, -1, 4, -1, 5, -1, 6, -1, 7, -1);
+    __m128i c2 =
+        _mm_setr_epi8(-1, 0, -1, 1, -1, 2, -1, 3, -1, 4, -1, 5, -1, 6, -1, 7);
+    __m128i c3 = _mm_setr_epi8(8, -1, 9, -1, 10, -1, 11, -1, 12, -1, 13, -1, 14,
+                               -1, 15, -1);
+    __m128i c4 = _mm_setr_epi8(-1, 8, -1, 9, -1, 10, -1, 11, -1, 12, -1, 13, -1,
+                               14, -1, 15);
 
-    __m128i c5 = _mm_setr_epi8(0, 2, 4, 6, 8, 10, 12, 14, 0x80, 0x80, 0x80,
-                               0x80, 0x80, 0x80, 0x80, 0x80);
-    __m128i c6 = _mm_setr_epi8(0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-                               0, 2, 4, 6, 8, 10, 12, 14);
-    __m128i c7 = _mm_setr_epi8(1, 3, 5, 7, 9, 11, 13, 15, 0x80, 0x80, 0x80,
-                               0x80, 0x80, 0x80, 0x80, 0x80);
-    __m128i c8 = _mm_setr_epi8(0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-                               1, 3, 5, 7, 9, 11, 13, 15);
+    __m128i c5 = _mm_setr_epi8(0, 2, 4, 6, 8, 10, 12, 14, -1, -1, -1, -1, -1,
+                               -1, -1, -1);
+    __m128i c6 = _mm_setr_epi8(-1, -1, -1, -1, -1, -1, -1, -1, 0, 2, 4, 6, 8,
+                               10, 12, 14);
+    __m128i c7 = _mm_setr_epi8(1, 3, 5, 7, 9, 11, 13, 15, -1, -1, -1, -1, -1,
+                               -1, -1, -1);
+    __m128i c8 = _mm_setr_epi8(-1, -1, -1, -1, -1, -1, -1, -1, 1, 3, 5, 7, 9,
+                               11, 13, 15);
 
     __m128i state1, state2, state3, state4, k, t1, t2, t3, t4;
 
-    state2 = _mm_loadu_si128((__m128i *)cipher);
+    state2 = _mm_loadu_si128((const __m128i *)ciphertext);
     state1 = _mm_srli_epi16(state2, 4);
     state1 = _mm_and_si128(state1, con);
     state2 = _mm_and_si128(state2, con);
@@ -941,7 +957,7 @@ static void uBlock_256256_Decrypt(const uint8_t        Subkey[25][64],
     state1 = _mm_xor_si128(t1, t2);
     state2 = _mm_xor_si128(t3, t4);
 
-    state4 = _mm_loadu_si128((__m128i *)(cipher + 16));
+    state4 = _mm_loadu_si128((const __m128i *)(ciphertext + 16));
     state3 = _mm_srli_epi16(state4, 4);
     state3 = _mm_and_si128(state3, con);
     state4 = _mm_and_si128(state4, con);
@@ -954,13 +970,13 @@ static void uBlock_256256_Decrypt(const uint8_t        Subkey[25][64],
 
     for (i = 24; i > 0; i--)
     {
-        k      = _mm_loadu_si128((__m128i *)Subkey[i]);
+        k      = _mm_loadu_si128((const __m128i *)sub_key[i]);
         state1 = _mm_xor_si128(state1, k);
-        k      = _mm_loadu_si128((__m128i *)(Subkey[i] + 16));
+        k      = _mm_loadu_si128((const __m128i *)(sub_key[i] + 16));
         state2 = _mm_xor_si128(state2, k);
-        k      = _mm_loadu_si128((__m128i *)(Subkey[i] + 32));
+        k      = _mm_loadu_si128((const __m128i *)(sub_key[i] + 32));
         state3 = _mm_xor_si128(state3, k);
-        k      = _mm_loadu_si128((__m128i *)(Subkey[i] + 48));
+        k      = _mm_loadu_si128((const __m128i *)(sub_key[i] + 48));
         state4 = _mm_xor_si128(state4, k);
 
         t1     = _mm_shuffle_epi8(state1, L1);
@@ -1009,13 +1025,13 @@ static void uBlock_256256_Decrypt(const uint8_t        Subkey[25][64],
         state4 = _mm_shuffle_epi8(S_Inv, state4);
     }
 
-    k      = _mm_loadu_si128((__m128i *)Subkey[0]);
+    k      = _mm_loadu_si128((const __m128i *)sub_key[0]);
     state1 = _mm_xor_si128(state1, k);
-    k      = _mm_loadu_si128((__m128i *)(Subkey[0] + 16));
+    k      = _mm_loadu_si128((const __m128i *)(sub_key[0] + 16));
     state2 = _mm_xor_si128(state2, k);
-    k      = _mm_loadu_si128((__m128i *)(Subkey[0] + 32));
+    k      = _mm_loadu_si128((const __m128i *)(sub_key[0] + 32));
     state3 = _mm_xor_si128(state3, k);
-    k      = _mm_loadu_si128((__m128i *)(Subkey[0] + 48));
+    k      = _mm_loadu_si128((const __m128i *)(sub_key[0] + 48));
     state4 = _mm_xor_si128(state4, k);
 
     t1     = _mm_shuffle_epi8(state1, c5);
@@ -1036,8 +1052,8 @@ static void uBlock_256256_Decrypt(const uint8_t        Subkey[25][64],
     state3 = _mm_slli_epi16(state3, 4);
     state3 = _mm_xor_si128(state3, state4);
 
-    _mm_storeu_si128((__m128i *)plain, state1);
-    _mm_storeu_si128((__m128i *)(plain + 16), state3);
+    _mm_storeu_si128((__m128i *)plaintext, state1);
+    _mm_storeu_si128((__m128i *)(plaintext + 16), state3);
 
     return;
 }
