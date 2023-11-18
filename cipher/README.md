@@ -30,6 +30,20 @@ g++ -DTINY_CRYPTO_TEST -o main.exe aes_lut.cpp test_aes_lut.cpp
 g++ -DTINY_CRYPTO_TEST -o main.exe -maes aes_aesni.cpp test_aes_aesni.cpp
 ```
 
+## DES
+
+> FIPS 46-3: Data Encryption Standard (DES)
+> https://csrc.nist.gov/pubs/fips/46-3/final
+
+> NIST SP 800-67 Rev. 2: Recommendation for the Triple Data Encryption Algorithm (TDEA) Block Cipher
+> https://csrc.nist.gov/pubs/sp/800/67/r2/final
+
+* des common
+
+```
+g++ -DTINY_CRYPTO_TEST -o main.exe des_common.cpp test_des_common.cpp
+```
+
 ## SM4
 
 > GB/T 32907-2016 信息安全技术 SM4分组密码算法
