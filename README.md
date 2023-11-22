@@ -7,6 +7,7 @@
 [link](./cipher/README.md)
 
 * AES
+* Ballet
 * DES
 * SM4
 * uBlock

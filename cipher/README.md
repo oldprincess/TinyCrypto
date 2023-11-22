@@ -30,6 +30,23 @@ g++ -DTINY_CRYPTO_TEST -o main.exe aes_lut.cpp test_aes_lut.cpp
 g++ -DTINY_CRYPTO_TEST -o main.exe -maes aes_aesni.cpp test_aes_aesni.cpp
 ```
 
+## Ballet
+
+> 崔婷婷,王美琴,樊燕红等.Ballet:一个软件实现友好的分组密码算法[J].密码学报,2019,6(06):704-712.
+
+> CUI T T, WANG M Q, FAN Y H, HU K, FU Y, HUANG L N. Ballet: A software-friendly block cipher [J]. Journal of Cryptologic Research, 2019, 6(6): 704–712.
+
+* ballet standard
+
+> 全国密码算法设计竞赛进入第二轮分组算法
+> https://sfjs.cacrnet.org.cn/site/term/list_76_1.html
+
+仅使用普通实现，不包括使用AVX2指令集优化的部分
+
+```
+g++ -DTINY_CRYPTO_TEST -o main.exe -mavx2 ballet_standard.cpp test_ballet_standard.cpp
+```
+
 ## DES
 
 > FIPS 46-3: Data Encryption Standard (DES)
