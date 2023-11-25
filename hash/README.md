@@ -36,6 +36,8 @@
 > RFC 1321: The MD5 Message-Digest Algorithm
 > https://www.rfc-editor.org/rfc/rfc1321
 
+> Copyright (C) 1991-2, RSA Data Security, Inc. Created 1991. All rights reserved.
+
 ```
 g++ -DTINY_CRYPTO_TEST -o main.exe md5_standard.cpp test_md5_standard.cpp
 ```
@@ -46,6 +48,8 @@ g++ -DTINY_CRYPTO_TEST -o main.exe md5_standard.cpp test_md5_standard.cpp
 > https://csrc.nist.gov/pubs/fips/180-4/upd1/final
 
 * sha1 standard
+
+> Copyright (c) 2011 IETF Trust and the persons identified as authors of the code.  All rights reserved.
 
 > RFC 3174: US Secure Hash Algorithm 1 (SHA1),
 > https://www.rfc-editor.org/rfc/rfc3174
@@ -63,6 +67,8 @@ g++ -DTINY_CRYPTO_TEST -o main.exe sha1_standard.cpp test_sha1_standard.cpp
 
 > US Secure Hash Algorithms(SHA and SHA-based HMAC and HKDF)
 > https://www.rfc-editor.org/rfc/rfc6234
+
+> Copyright (c) 2011 IETF Trust and the persons identified as authors of the code.  All rights reserved.
 
 sha224, sha256, sha384, sha512
 
