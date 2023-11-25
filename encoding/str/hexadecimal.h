@@ -6,6 +6,16 @@
 
 namespace tc {
 
+static inline size_t u8array_to_hex_outl(size_t inl)
+{
+    return 2 * inl;
+}
+
+static inline size_t hex_to_u8array_outl(size_t inl)
+{
+    return inl / 2;
+}
+
 void u8array_to_hex(char* out, const uint8_t* in, size_t inl);
 
 void uint8_to_hex(char out[3], uint8_t in);

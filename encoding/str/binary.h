@@ -6,6 +6,16 @@
 
 namespace tc {
 
+static inline size_t u8array_to_bin_outl(size_t inl)
+{
+    return 8 * inl;
+}
+
+static inline size_t bin_to_u8array_outl(size_t inl)
+{
+    return inl / 8;
+}
+
 void u8array_to_bin(char* out, const uint8_t* in, size_t inl);
 
 void uint8_to_bin(char out[9], uint8_t in);
