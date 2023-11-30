@@ -8,6 +8,11 @@ namespace tc {
 
 static inline size_t u8array_to_bin_outl(size_t inl)
 {
+    return 8 * inl + 1;
+}
+
+static inline size_t u8array_to_bin_strl(size_t inl)
+{
     return 8 * inl;
 }
 
