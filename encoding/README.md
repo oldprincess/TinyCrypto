@@ -2,6 +2,17 @@
 
 ## base
 
+* base64 avx2
+
+> Copyright (c) 2015-2016, Wojciech Muła, Alfred Klomp,  Daniel Lemire. (Unless otherwise stated in the source code) All rights reserved.
+> https://github.com/lemire/fastbase64/blob/master/src/klompavxbase64.c
+
+> BSD. Copyright (c) 2013-2015, Alfred Klomp. All rights reserved.
+
+```
+g++ -DTINY_CRYPTO_TEST -o main.exe base64_avx2.cpp test_base64_avx2.cpp -mavx2
+```
+
 * base64 chromium
 
 > Copyright (c) 2015-2016, Wojciech Muła, Alfred Klomp,  Daniel Lemire. (Unless otherwise stated in the source code) All rights reserved.
