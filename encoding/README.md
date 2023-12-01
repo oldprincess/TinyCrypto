@@ -1,6 +1,6 @@
 # TinyCrypto--encoding
 
-## str
+## base
 
 * base64
 
@@ -10,6 +10,8 @@
 ```
 g++ -DTINY_CRYPTO_TEST -o main.exe base64.cpp test_base64.cpp
 ```
+
+## str
 
 * binary
 
