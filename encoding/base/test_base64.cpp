@@ -87,12 +87,6 @@ static void test_base64()
     {
         fprintf(stderr, "err in base64_decode, file: %s, line: %d\n", __FILE__,
                 __LINE__);
-
-        for (int i = 0; i < sizeof(data1); i++)
-        {
-            printf("%02x ", data[i]);
-        }
-        puts("");
         exit(-1);
     }
     base64_decode(data, b64_2, strlen(b64_2));
