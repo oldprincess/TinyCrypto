@@ -12,6 +12,13 @@
 * SM4
 * uBlock
 
+## 编码算法 —— encoding
+
+[link](./encoding/README.md)
+
+* Base64
+* str
+
 ## 哈希算法 —— hash
 
 [link](./hash/README.md)
@@ -21,3 +28,7 @@
 * SHA1
 * SHA2
 * SM3
+
+## 公钥密码 —— pkc
+
+* SM2
