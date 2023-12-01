@@ -1,3 +1,34 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2023 oldprincess, https://github.com/oldprincess/TinyCrypto
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/**
+ * part of the code is "derived from IETF Trust and the persons identified as
+ * authors of the code. sha1.c"
+ *
+ * Copyright (c) 2011 IETF Trust and the persons identified as authors of the
+ * code. All rights reserved.
+ */
 #include "sha1_standard.h"
 #include <string.h>
 
@@ -70,8 +101,19 @@ namespace tc {
 */
 
 /**
- * modify:
- * cite from https://www.rfc-editor.org/rfc/rfc3174#section-7.1
+ * Starting from here, until the next similar comment declaration.
+ *
+ * the code is "derived from IETF Trust and the persons identified as authors of
+ * the code. sha1.c"
+ *
+ * cite: https://www.rfc-editor.org/rfc/rfc3174#section-7.1
+ */
+
+/**
+ * Copyright (c) 2011 IETF Trust and the persons identified as authors of the
+ * code. All rights reserved.
+ *
+ * derived from https://www.rfc-editor.org/rfc/rfc3174#section-7.1
  */
 static void sha1_compress(uint32_t state[5], const uint8_t data[64])
 {
@@ -159,25 +201,20 @@ static void sha1_compress(uint32_t state[5], const uint8_t data[64])
     state[4] += E;
 }
 
+/**
+ * Ending here, to the previous similar comment declaration.
+ *
+ * the code is "derived from IETF Trust and the persons identified as authors of
+ * the code. sha1.c"
+ *
+ * cite: https://www.rfc-editor.org/rfc/rfc3174#section-7.1
+ */
+
 // ++++++++++++++++++++++++++++++++++++++++++++++++++
 // **************************************************
 // ************* SHA1 CIPHER FUNCTION ***************
 // **************************************************
 // ++++++++++++++++++++++++++++++++++++++++++++++++++
-
-static int u64_add(uint64_t* r, uint64_t n)
-{
-    uint32_t a1  = (uint32_t)(*r >> 32);
-    uint32_t a0  = *r & UINT32_MAX;
-    uint32_t b1  = (uint32_t)(n >> 32);
-    uint32_t b0  = n & UINT32_MAX;
-    uint64_t tmp = (uint64_t)a0 + b0;
-    uint32_t r0  = tmp & UINT32_MAX;
-    tmp          = (uint64_t)a1 + b1 + (tmp >> 32);
-    uint32_t r1  = tmp & UINT32_MAX;
-    *r           = (uint64_t)r1 << 32 | r0;
-    return (int)(tmp >> 32); // carry bit
-}
 
 void sha1_standard_init(Sha1StandardCTX* ctx)
 {
@@ -202,12 +239,13 @@ int sha1_standard_update(Sha1StandardCTX* ctx, const uint8_t* in, size_t inl)
 {
     if (inl > UINT64_MAX / 8)
     {
-        return -1; // input bits overflow
+        return -1;
     }
-    uint64_t inl_bits = (uint64_t)inl * 8;
-    if (u64_add(&(ctx->data_bits), inl_bits))
+    uint64_t t = ctx->data_bits;
+    ctx->data_bits += 8 * (uint64_t)inl;
+    if (ctx->data_bits < t)
     {
-        return -1; // input bits overflow
+        return -1;
     }
 
     if (ctx->buf_size == 0)

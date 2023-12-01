@@ -20,7 +20,7 @@ g++ -DTINY_CRYPTO_TEST -o main.exe aes_lut.cpp test_aes_lut.cpp
 
 * aes-aesni
 
->  MIT License, Copyright (c) 2023 Jubal Mordecai Velasco, @cite https://github.com/mrdcvlsc/AES/blob/main/AES.hpp
+>  MIT License, Copyright (c) 2023 Jubal Mordecai Velasco, https://github.com/mrdcvlsc/AES/blob/main/AES.hpp
 
 > Intel Intrinsics Guide. https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html
 

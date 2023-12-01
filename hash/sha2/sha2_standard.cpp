@@ -1,3 +1,34 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2023 oldprincess, https://github.com/oldprincess/TinyCrypto
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/**
+ * part of the code is "derived from IETF Trust and the persons identified as
+ * authors of the code. sha224-256.c, sha384-512.c"
+ *
+ * Copyright (c) 2011 IETF Trust and the persons identified as authors of the
+ * code. All rights reserved.
+ */
 #include "sha2_standard.h"
 #include <string.h>
 
@@ -35,12 +66,9 @@ namespace tc {
      ((uint8_t *)(dst))[6] = ((uint64_t)(a) >> 8) & 0xFF,  \
      ((uint8_t *)(dst))[7] = ((uint64_t)(a) >> 0) & 0xFF)
 
-#define SHA_Ch(x, y, z)  (((x) & ((y) ^ (z))) ^ (z))
-#define SHA_Maj(x, y, z) (((x) & ((y) | (z))) | ((y) & (z)))
-
 // ++++++++++++++++++++++++++++++++++++++++++++++++++
 // **************************************************
-// ************ SHA224/256 CORE FUNCTION ************
+// ******* SHA224/256/384/512 CORE FUNCTION *********
 // **************************************************
 // ++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -80,6 +108,18 @@ namespace tc {
    EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+/**
+ * Starting from here, until the next similar comment declaration.
+ *
+ * the code is "derived from IETF Trust and the persons identified as authors of
+ * the code. sha224-256.c, sha384-512.c"
+ *
+ * cite: https://www.rfc-editor.org/rfc/rfc6234#section-8.2.2
+ */
+
+#define SHA_Ch(x, y, z)  (((x) & ((y) ^ (z))) ^ (z))
+#define SHA_Maj(x, y, z) (((x) & ((y) | (z))) | ((y) & (z)))
+
 #define SHA256_SHR(bits, word)  ((word) >> (bits))
 #define SHA256_ROTL(bits, word) (((word) << (bits)) | ((word) >> (32 - (bits))))
 #define SHA256_ROTR(bits, word) (((word) >> (bits)) | ((word) << (32 - (bits))))
@@ -95,8 +135,7 @@ namespace tc {
     (SHA256_ROTR(17, word) ^ SHA256_ROTR(19, word) ^ SHA256_SHR(10, word))
 
 /**
- * modify:
- * cite from https://www.rfc-editor.org/rfc/rfc6234#section-8.2.2
+ * derived from https://www.rfc-editor.org/rfc/rfc6234#section-8.2.2
  */
 static void sha224_256_compress_block(uint32_t state[8], const uint8_t in[64])
 {
@@ -156,6 +195,107 @@ static void sha224_256_compress_block(uint32_t state[8], const uint8_t in[64])
     state[6] += G;
     state[7] += H;
 }
+
+#define SHA512_SHR(bits, word) (((uint64_t)(word)) >> (bits))
+#define SHA512_ROTR(bits, word) \
+    ((((uint64_t)(word)) >> (bits)) | (((uint64_t)(word)) << (64 - (bits))))
+
+#define SHA512_SIGMA0(word) \
+    (SHA512_ROTR(28, word) ^ SHA512_ROTR(34, word) ^ SHA512_ROTR(39, word))
+#define SHA512_SIGMA1(word) \
+    (SHA512_ROTR(14, word) ^ SHA512_ROTR(18, word) ^ SHA512_ROTR(41, word))
+#define SHA512_sigma0(word) \
+    (SHA512_ROTR(1, word) ^ SHA512_ROTR(8, word) ^ SHA512_SHR(7, word))
+#define SHA512_sigma1(word) \
+    (SHA512_ROTR(19, word) ^ SHA512_ROTR(61, word) ^ SHA512_SHR(6, word))
+
+/**
+ * derived from https://www.rfc-editor.org/rfc/rfc6234#section-8.2.2
+ */
+static void sha384_512_compress_block(uint64_t state[8], const uint8_t in[128])
+{
+    /* Constants defined in FIPS 180-3, section 4.2.3 */
+    static const uint64_t K[80] = {
+        0x428A2F98D728AE22LLU, 0x7137449123EF65CDLLU, 0xB5C0FBCFEC4D3B2FLLU,
+        0xE9B5DBA58189DBBCLLU, 0x3956C25BF348B538LLU, 0x59F111F1B605D019LLU,
+        0x923F82A4AF194F9BLLU, 0xAB1C5ED5DA6D8118LLU, 0xD807AA98A3030242LLU,
+        0x12835B0145706FBELLU, 0x243185BE4EE4B28CLLU, 0x550C7DC3D5FFB4E2LLU,
+        0x72BE5D74F27B896FLLU, 0x80DEB1FE3B1696B1LLU, 0x9BDC06A725C71235LLU,
+        0xC19BF174CF692694LLU, 0xE49B69C19EF14AD2LLU, 0xEFBE4786384F25E3LLU,
+        0x0FC19DC68B8CD5B5LLU, 0x240CA1CC77AC9C65LLU, 0x2DE92C6F592B0275LLU,
+        0x4A7484AA6EA6E483LLU, 0x5CB0A9DCBD41FBD4LLU, 0x76F988DA831153B5LLU,
+        0x983E5152EE66DFABLLU, 0xA831C66D2DB43210LLU, 0xB00327C898FB213FLLU,
+        0xBF597FC7BEEF0EE4LLU, 0xC6E00BF33DA88FC2LLU, 0xD5A79147930AA725LLU,
+        0x06CA6351E003826FLLU, 0x142929670A0E6E70LLU, 0x27B70A8546D22FFCLLU,
+        0x2E1B21385C26C926LLU, 0x4D2C6DFC5AC42AEDLLU, 0x53380D139D95B3DFLLU,
+        0x650A73548BAF63DELLU, 0x766A0ABB3C77B2A8LLU, 0x81C2C92E47EDAEE6LLU,
+        0x92722C851482353BLLU, 0xA2BFE8A14CF10364LLU, 0xA81A664BBC423001LLU,
+        0xC24B8B70D0F89791LLU, 0xC76C51A30654BE30LLU, 0xD192E819D6EF5218LLU,
+        0xD69906245565A910LLU, 0xF40E35855771202ALLU, 0x106AA07032BBD1B8LLU,
+        0x19A4C116B8D2D0C8LLU, 0x1E376C085141AB53LLU, 0x2748774CDF8EEB99LLU,
+        0x34B0BCB5E19B48A8LLU, 0x391C0CB3C5C95A63LLU, 0x4ED8AA4AE3418ACBLLU,
+        0x5B9CCA4F7763E373LLU, 0x682E6FF3D6B2B8A3LLU, 0x748F82EE5DEFB2FCLLU,
+        0x78A5636F43172F60LLU, 0x84C87814A1F0AB72LLU, 0x8CC702081A6439ECLLU,
+        0x90BEFFFA23631E28LLU, 0xA4506CEBDE82BDE9LLU, 0xBEF9A3F7B2C67915LLU,
+        0xC67178F2E372532BLLU, 0xCA273ECEEA26619CLLU, 0xD186B8C721C0C207LLU,
+        0xEADA7DD6CDE0EB1ELLU, 0xF57D4F7FEE6ED178LLU, 0x06F067AA72176FBALLU,
+        0x0A637DC5A2C898A6LLU, 0x113F9804BEF90DAELLU, 0x1B710B35131C471BLLU,
+        0x28DB77F523047D84LLU, 0x32CAAB7B40C72493LLU, 0x3C9EBE0A15C9BEBCLLU,
+        0x431D67C49C100D4CLLU, 0x4CC5D4BECB3E42B6LLU, 0x597F299CFC657E2ALLU,
+        0x5FCB6FAB3AD6FAECLLU, 0x6C44198C4A475817LLU,
+    };
+    uint64_t temp1, temp2;
+    uint64_t W[80];
+    uint64_t A, B, C, D, E, F, G, H;
+
+    for (int t = 0; t < 16; t++)
+    {
+        W[t] = MEM_LOAD64BE(in + 8 * t);
+    }
+    for (int t = 16; t < 80; t++)
+    {
+        W[t] = SHA512_sigma1(W[t - 2]) + W[t - 7] + SHA512_sigma0(W[t - 15]) +
+               W[t - 16];
+    }
+    A = state[0];
+    B = state[1];
+    C = state[2];
+    D = state[3];
+    E = state[4];
+    F = state[5];
+    G = state[6];
+    H = state[7];
+    for (int t = 0; t < 80; t++)
+    {
+        temp1 = H + SHA512_SIGMA1(E) + SHA_Ch(E, F, G) + K[t] + W[t];
+        temp2 = SHA512_SIGMA0(A) + SHA_Maj(A, B, C);
+        H     = G;
+        G     = F;
+        F     = E;
+        E     = D + temp1;
+        D     = C;
+        C     = B;
+        B     = A;
+        A     = temp1 + temp2;
+    }
+    state[0] += A;
+    state[1] += B;
+    state[2] += C;
+    state[3] += D;
+    state[4] += E;
+    state[5] += F;
+    state[6] += G;
+    state[7] += H;
+}
+
+/**
+ * Ending here, to the previous similar comment declaration.
+ *
+ * the code is "derived from IETF Trust and the persons identified as authors of
+ * the code. sha224-256.c, sha384-512.c"
+ *
+ * cite: https://www.rfc-editor.org/rfc/rfc6234#section-8.2.2
+ */
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++
 // **************************************************
@@ -341,141 +481,6 @@ int sha256_standard_update(Sha256StandardCTX *ctx,
 void sha256_standard_final(Sha256StandardCTX *ctx, uint8_t digest[32])
 {
     sha224_256_final_n(ctx, digest, 32);
-}
-
-// ++++++++++++++++++++++++++++++++++++++++++++++++++
-// **************************************************
-// ************ SHA384/512 CORE FUNCTION ************
-// **************************************************
-// ++++++++++++++++++++++++++++++++++++++++++++++++++
-
-/*
-   Copyright (c) 2011 IETF Trust and the persons identified as
-   authors of the code.  All rights reserved.
-
-   Redistribution and use in source and binary forms, with or
-   without modification, are permitted provided that the following
-   conditions are met:
-
-   - Redistributions of source code must retain the above
-     copyright notice, this list of conditions and
-     the following disclaimer.
-   - Redistributions in binary form must reproduce the above
-     copyright notice, this list of conditions and the following
-     disclaimer in the documentation and/or other materials provided
-     with the distribution.
-
-   - Neither the name of Internet Society, IETF or IETF Trust, nor
-     the names of specific contributors, may be used to endorse or
-     promote products derived from this software without specific
-     prior written permission.
-
-   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
-   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
-   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-   DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-   HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
-   OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-   EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
-
-#define SHA512_SHR(bits, word) (((uint64_t)(word)) >> (bits))
-#define SHA512_ROTR(bits, word) \
-    ((((uint64_t)(word)) >> (bits)) | (((uint64_t)(word)) << (64 - (bits))))
-
-#define SHA512_SIGMA0(word) \
-    (SHA512_ROTR(28, word) ^ SHA512_ROTR(34, word) ^ SHA512_ROTR(39, word))
-#define SHA512_SIGMA1(word) \
-    (SHA512_ROTR(14, word) ^ SHA512_ROTR(18, word) ^ SHA512_ROTR(41, word))
-#define SHA512_sigma0(word) \
-    (SHA512_ROTR(1, word) ^ SHA512_ROTR(8, word) ^ SHA512_SHR(7, word))
-#define SHA512_sigma1(word) \
-    (SHA512_ROTR(19, word) ^ SHA512_ROTR(61, word) ^ SHA512_SHR(6, word))
-
-/**
- * modify:
- * cite from https://www.rfc-editor.org/rfc/rfc6234#section-8.2.2
- */
-static void sha384_512_compress_block(uint64_t state[8], const uint8_t in[128])
-{
-    /* Constants defined in FIPS 180-3, section 4.2.3 */
-    static const uint64_t K[80] = {
-        0x428A2F98D728AE22LLU, 0x7137449123EF65CDLLU, 0xB5C0FBCFEC4D3B2FLLU,
-        0xE9B5DBA58189DBBCLLU, 0x3956C25BF348B538LLU, 0x59F111F1B605D019LLU,
-        0x923F82A4AF194F9BLLU, 0xAB1C5ED5DA6D8118LLU, 0xD807AA98A3030242LLU,
-        0x12835B0145706FBELLU, 0x243185BE4EE4B28CLLU, 0x550C7DC3D5FFB4E2LLU,
-        0x72BE5D74F27B896FLLU, 0x80DEB1FE3B1696B1LLU, 0x9BDC06A725C71235LLU,
-        0xC19BF174CF692694LLU, 0xE49B69C19EF14AD2LLU, 0xEFBE4786384F25E3LLU,
-        0x0FC19DC68B8CD5B5LLU, 0x240CA1CC77AC9C65LLU, 0x2DE92C6F592B0275LLU,
-        0x4A7484AA6EA6E483LLU, 0x5CB0A9DCBD41FBD4LLU, 0x76F988DA831153B5LLU,
-        0x983E5152EE66DFABLLU, 0xA831C66D2DB43210LLU, 0xB00327C898FB213FLLU,
-        0xBF597FC7BEEF0EE4LLU, 0xC6E00BF33DA88FC2LLU, 0xD5A79147930AA725LLU,
-        0x06CA6351E003826FLLU, 0x142929670A0E6E70LLU, 0x27B70A8546D22FFCLLU,
-        0x2E1B21385C26C926LLU, 0x4D2C6DFC5AC42AEDLLU, 0x53380D139D95B3DFLLU,
-        0x650A73548BAF63DELLU, 0x766A0ABB3C77B2A8LLU, 0x81C2C92E47EDAEE6LLU,
-        0x92722C851482353BLLU, 0xA2BFE8A14CF10364LLU, 0xA81A664BBC423001LLU,
-        0xC24B8B70D0F89791LLU, 0xC76C51A30654BE30LLU, 0xD192E819D6EF5218LLU,
-        0xD69906245565A910LLU, 0xF40E35855771202ALLU, 0x106AA07032BBD1B8LLU,
-        0x19A4C116B8D2D0C8LLU, 0x1E376C085141AB53LLU, 0x2748774CDF8EEB99LLU,
-        0x34B0BCB5E19B48A8LLU, 0x391C0CB3C5C95A63LLU, 0x4ED8AA4AE3418ACBLLU,
-        0x5B9CCA4F7763E373LLU, 0x682E6FF3D6B2B8A3LLU, 0x748F82EE5DEFB2FCLLU,
-        0x78A5636F43172F60LLU, 0x84C87814A1F0AB72LLU, 0x8CC702081A6439ECLLU,
-        0x90BEFFFA23631E28LLU, 0xA4506CEBDE82BDE9LLU, 0xBEF9A3F7B2C67915LLU,
-        0xC67178F2E372532BLLU, 0xCA273ECEEA26619CLLU, 0xD186B8C721C0C207LLU,
-        0xEADA7DD6CDE0EB1ELLU, 0xF57D4F7FEE6ED178LLU, 0x06F067AA72176FBALLU,
-        0x0A637DC5A2C898A6LLU, 0x113F9804BEF90DAELLU, 0x1B710B35131C471BLLU,
-        0x28DB77F523047D84LLU, 0x32CAAB7B40C72493LLU, 0x3C9EBE0A15C9BEBCLLU,
-        0x431D67C49C100D4CLLU, 0x4CC5D4BECB3E42B6LLU, 0x597F299CFC657E2ALLU,
-        0x5FCB6FAB3AD6FAECLLU, 0x6C44198C4A475817LLU,
-    };
-    uint64_t temp1, temp2;
-    uint64_t W[80];
-    uint64_t A, B, C, D, E, F, G, H;
-
-    for (int t = 0; t < 16; t++)
-    {
-        W[t] = MEM_LOAD64BE(in + 8 * t);
-    }
-    for (int t = 16; t < 80; t++)
-    {
-        W[t] = SHA512_sigma1(W[t - 2]) + W[t - 7] + SHA512_sigma0(W[t - 15]) +
-               W[t - 16];
-    }
-    A = state[0];
-    B = state[1];
-    C = state[2];
-    D = state[3];
-    E = state[4];
-    F = state[5];
-    G = state[6];
-    H = state[7];
-    for (int t = 0; t < 80; t++)
-    {
-        temp1 = H + SHA512_SIGMA1(E) + SHA_Ch(E, F, G) + K[t] + W[t];
-        temp2 = SHA512_SIGMA0(A) + SHA_Maj(A, B, C);
-        H     = G;
-        G     = F;
-        F     = E;
-        E     = D + temp1;
-        D     = C;
-        C     = B;
-        B     = A;
-        A     = temp1 + temp2;
-    }
-    state[0] += A;
-    state[1] += B;
-    state[2] += C;
-    state[3] += D;
-    state[4] += E;
-    state[5] += F;
-    state[6] += G;
-    state[7] += H;
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -23,6 +23,8 @@
 > Intel Carry-Less Multiplication Instruction and its Usage for Computing the GCM Mode.
 > https://www.intel.com/content/dam/develop/external/us/en/documents/clmul-wp-rev-2-02-2014-04-20.pdf
 
+> Copyright (c) 2010 Intel Corporation. All rights reserved.
+
 需要处理器支持Intel的SSSE3和PCLMUL指令集，需要添加编译参数`-mssse3 -mpclmul`（使用MSVC编译器除外）
 
 ```
@@ -78,14 +80,12 @@ g++ -DTINY_CRYPTO_TEST -o main.exe sha2_standard.cpp test_sha2_standard.cpp
 
 ## SM3
 
-> GB/T 32905-2016 信息安全技术 SM3密码杂凑算法
-
+> GB/T 32905-2016 信息安全技术 SM3密码杂凑算法\
 > GB/T 32905-2016 Information security techniques—SM3 cryptographic hash algorithm
 
 * sm3 fast
 
-> 杨先伟,康红娟.SM3杂凑算法的软件快速实现研究[J].智能系统学报,2015,10(06):954-959.
-
+> 杨先伟,康红娟.SM3杂凑算法的软件快速实现研究[J].智能系统学报,2015,10(06):954-959.\
 > YANG Xianwei, KANG Hongjuan. Fast software implementation of SM3 Hash algorithm[J]. CAAI Transactions on Intelligent Systems, 2015, 10(2): 954-95.
 
 ```

@@ -1,3 +1,34 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2023 oldprincess, https://github.com/oldprincess/TinyCrypto
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/**
+ * part of the code is "derived from Jubal Mordecai Velasco,
+ * https://github.com/mrdcvlsc/AES/blob/main/AES.hpp"
+ *
+ * MIT License. Copyright (c) 2023 Jubal Mordecai Velasco,
+ * https://github.com/mrdcvlsc/AES/blob/main/AES.hpp
+ */
 #include "aes_aesni.h"
 #include <immintrin.h>
 
@@ -8,9 +39,15 @@ namespace tc {
         _mm_shuffle_pd(_mm_castsi128_pd(a), _mm_castsi128_pd(b), imm8))
 
 /**
- * MIT License
- * Copyright (c) 2023 Jubal Mordecai Velasco
- * @cite https://github.com/mrdcvlsc/AES/blob/main/AES.hpp
+ * Starting from here, until the next similar comment declaration.
+ * the code is
+ * "derived from Jubal Mordecai Velasco,
+ * https://github.com/mrdcvlsc/AES/blob/main/AES.hpp"
+ */
+
+/**
+ * MIT License. Copyright (c) 2023 Jubal Mordecai Velasco,
+ * https://github.com/mrdcvlsc/AES/blob/main/AES.hpp
  */
 static inline __m128i AES_128_ASSIST(__m128i temp1, __m128i temp2)
 {
@@ -27,9 +64,8 @@ static inline __m128i AES_128_ASSIST(__m128i temp1, __m128i temp2)
 }
 
 /**
- * MIT License
- * Copyright (c) 2023 Jubal Mordecai Velasco
- * @cite https://github.com/mrdcvlsc/AES/blob/main/AES.hpp
+ * MIT License. Copyright (c) 2023 Jubal Mordecai Velasco,
+ * https://github.com/mrdcvlsc/AES/blob/main/AES.hpp
  */
 static void AES_128_Key_Expansion(const unsigned char* userkey,
                                   unsigned char*       key)
@@ -72,9 +108,8 @@ static void AES_128_Key_Expansion(const unsigned char* userkey,
 }
 
 /**
- * MIT License
- * Copyright (c) 2023 Jubal Mordecai Velasco
- * @cite https://github.com/mrdcvlsc/AES/blob/main/AES.hpp
+ * MIT License. Copyright (c) 2023 Jubal Mordecai Velasco,
+ * https://github.com/mrdcvlsc/AES/blob/main/AES.hpp
  */
 static inline void KEY_192_ASSIST(__m128i* temp1,
                                   __m128i* temp2,
@@ -96,9 +131,8 @@ static inline void KEY_192_ASSIST(__m128i* temp1,
 }
 
 /**
- * MIT License
- * Copyright (c) 2023 Jubal Mordecai Velasco
- * @cite https://github.com/mrdcvlsc/AES/blob/main/AES.hpp
+ * MIT License. Copyright (c) 2023 Jubal Mordecai Velasco,
+ * https://github.com/mrdcvlsc/AES/blob/main/AES.hpp
  */
 static void AES_192_Key_Expansion(const unsigned char* userkey,
                                   unsigned char*       key)
@@ -143,9 +177,8 @@ static void AES_192_Key_Expansion(const unsigned char* userkey,
 }
 
 /**
- * MIT License
- * Copyright (c) 2023 Jubal Mordecai Velasco
- * @cite https://github.com/mrdcvlsc/AES/blob/main/AES.hpp
+ * MIT License. Copyright (c) 2023 Jubal Mordecai Velasco,
+ * https://github.com/mrdcvlsc/AES/blob/main/AES.hpp
  */
 static inline void KEY_256_ASSIST_1(__m128i* temp1, __m128i* temp2)
 {
@@ -161,9 +194,8 @@ static inline void KEY_256_ASSIST_1(__m128i* temp1, __m128i* temp2)
 }
 
 /**
- * MIT License
- * Copyright (c) 2023 Jubal Mordecai Velasco
- * @cite https://github.com/mrdcvlsc/AES/blob/main/AES.hpp
+ * MIT License. Copyright (c) 2023 Jubal Mordecai Velasco,
+ * https://github.com/mrdcvlsc/AES/blob/main/AES.hpp
  */
 static inline void KEY_256_ASSIST_2(__m128i* temp1, __m128i* temp3)
 {
@@ -180,9 +212,8 @@ static inline void KEY_256_ASSIST_2(__m128i* temp1, __m128i* temp3)
 }
 
 /**
- * MIT License
- * Copyright (c) 2023 Jubal Mordecai Velasco
- * @cite https://github.com/mrdcvlsc/AES/blob/main/AES.hpp
+ * MIT License. Copyright (c) 2023 Jubal Mordecai Velasco,
+ * https://github.com/mrdcvlsc/AES/blob/main/AES.hpp
  */
 static void AES_256_Key_Expansion(const unsigned char* userkey,
                                   unsigned char*       key)
@@ -227,6 +258,13 @@ static void AES_256_Key_Expansion(const unsigned char* userkey,
     KEY_256_ASSIST_1(&temp1, &temp2);
     Key_Schedule[14] = temp1;
 }
+
+/**
+ * Ending here, to the previous similar comment declaration.
+ * the code is
+ * "derived from Jubal Mordecai Velasco,
+ * https://github.com/mrdcvlsc/AES/blob/main/AES.hpp"
+ */
 
 // ****************************************
 // ************* AES 128 ******************

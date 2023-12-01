@@ -1,3 +1,33 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2023 oldprincess, https://github.com/oldprincess/TinyCrypto
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/**
+ * part of the code is "derived from <Intrinsics for Carry-less Multiplication
+ * Instruction and Advanced Encryption Standard Instructions>"
+ *
+ * Copyright (c) 2010 Intel Corporation. All rights reserved.
+ */
 #include "ghash_pclmul.h"
 #include <string.h>
 #include <immintrin.h>
@@ -5,10 +35,19 @@
 namespace tc {
 
 /**
- * @cite Intrinsics for Carry-less Multiplication Instruction and Advanced
- * Encryption Standard Instructions
+ * Starting from here, until the next similar comment declaration.
+ *
+ * the code is "derived from <Intrinsics for Carry-less Multiplication
+ * Instruction and Advanced Encryption Standard Instructions>"
  *
  * https://www.intel.com/content/dam/develop/external/us/en/documents/clmul-wp-rev-2-02-2014-04-20.pdf
+ */
+
+/**
+ * Copyright (c) 2010 Intel Corporation. All rights reserved.
+ *
+ * derived from <Intrinsics for Carry-less Multiplication Instruction and
+ * Advanced Encryption Standard Instructions>
  */
 static inline __m128i reflect_xmm(__m128i X)
 {
@@ -29,10 +68,10 @@ static inline __m128i reflect_xmm(__m128i X)
 }
 
 /**
- * @cite Intrinsics for Carry-less Multiplication Instruction and Advanced
- * Encryption Standard Instructions
+ * Copyright (c) 2010 Intel Corporation. All rights reserved.
  *
- * https://www.intel.com/content/dam/develop/external/us/en/documents/clmul-wp-rev-2-02-2014-04-20.pdf
+ * derived from <Intrinsics for Carry-less Multiplication Instruction and
+ * Advanced Encryption Standard Instructions>
  */
 static inline void gfmul(__m128i a, __m128i b, __m128i* res)
 {
@@ -70,6 +109,15 @@ static inline void gfmul(__m128i a, __m128i b, __m128i* res)
     tmp3  = _mm_xor_si128(tmp3, tmp12);
     *res  = _mm_xor_si128(tmp3, tmp6);
 }
+
+/**
+ * Ending here, to the previous similar comment declaration.
+ *
+ * the code is "derived from <Intrinsics for Carry-less Multiplication
+ * Instruction and Advanced Encryption Standard Instructions>"
+ *
+ * https://www.intel.com/content/dam/develop/external/us/en/documents/clmul-wp-rev-2-02-2014-04-20.pdf
+ */
 
 static void ghash_pclmul_update_block(GHashPclmulCTX* ctx, const uint8_t in[16])
 {
