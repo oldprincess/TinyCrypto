@@ -81,7 +81,12 @@ static void test_base64_chromium()
         exit(-1);
     }
     // test decode
-    base64_chromium_decode(data, b64_1, strlen(b64_1));
+    if (base64_chromium_decode(data, b64_1, strlen(b64_1)))
+    {
+        fprintf(stderr, "err in base64_chromium_decode, file: %s, line: %d\n",
+                __FILE__, __LINE__);
+        exit(-1);
+    }
     if (base64_chromium_decode_outl(b64_1, strlen(b64_1)) != sizeof(data1) ||
         memcmp(data, data1, sizeof(data1)) != 0)
     {
@@ -89,7 +94,12 @@ static void test_base64_chromium()
                 __FILE__, __LINE__);
         exit(-1);
     }
-    base64_chromium_decode(data, b64_2, strlen(b64_2));
+    if (base64_chromium_decode(data, b64_2, strlen(b64_2)))
+    {
+        fprintf(stderr, "err in base64_chromium_decode, file: %s, line: %d\n",
+                __FILE__, __LINE__);
+        exit(-1);
+    }
     if (base64_chromium_decode_outl(b64_2, strlen(b64_2)) != sizeof(data2) ||
         memcmp(data, data2, sizeof(data2)) != 0)
     {
@@ -97,7 +107,12 @@ static void test_base64_chromium()
                 __FILE__, __LINE__);
         exit(-1);
     }
-    base64_chromium_decode(data, b64_3, strlen(b64_3));
+    if (base64_chromium_decode(data, b64_3, strlen(b64_3)))
+    {
+        fprintf(stderr, "err in base64_chromium_decode, file: %s, line: %d\n",
+                __FILE__, __LINE__);
+        exit(-1);
+    }
     if (base64_chromium_decode_outl(b64_3, strlen(b64_3)) != sizeof(data3) ||
         memcmp(data, data3, sizeof(data3)) != 0)
     {
@@ -105,7 +120,12 @@ static void test_base64_chromium()
                 __FILE__, __LINE__);
         exit(-1);
     }
-    base64_chromium_decode(data, b64_4, strlen(b64_4));
+    if (base64_chromium_decode(data, b64_4, strlen(b64_4)))
+    {
+        fprintf(stderr, "err in base64_chromium_decode, file: %s, line: %d\n",
+                __FILE__, __LINE__);
+        exit(-1);
+    }
     if (base64_chromium_decode_outl(b64_4, strlen(b64_4)) != sizeof(data4) ||
         memcmp(data, data4, sizeof(data4)) != 0)
     {

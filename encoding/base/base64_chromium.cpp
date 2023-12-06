@@ -565,9 +565,10 @@ void base64_chromium_encode(char* out, const uint8_t* in, size_t inl)
     chromium_base64_encode(out, in, inl);
 }
 
-void base64_chromium_decode(uint8_t* out, const char* in, size_t inl)
+int base64_chromium_decode(uint8_t* out, const char* in, size_t inl)
 {
-    chromium_base64_decode(out, in, inl);
+    size_t ret = chromium_base64_decode(out, in, inl);
+    return (ret == MODP_B64_ERROR) ? -1 : 0;
 }
 
 }; // namespace tc

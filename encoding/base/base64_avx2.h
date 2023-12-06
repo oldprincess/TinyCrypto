@@ -17,7 +17,7 @@ size_t base64_avx2_decode_outl(const char* in, size_t inl);
 
 void base64_avx2_encode(char* out, const uint8_t* in, size_t inl);
 
-void base64_avx2_decode(uint8_t* out, const char* in, size_t inl);
+int base64_avx2_decode(uint8_t* out, const char* in, size_t inl);
 
 } // namespace tc
 

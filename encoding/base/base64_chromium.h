@@ -17,7 +17,7 @@ size_t base64_chromium_decode_outl(const char* in, size_t inl);
 
 void base64_chromium_encode(char* out, const uint8_t* in, size_t inl);
 
-void base64_chromium_decode(uint8_t* out, const char* in, size_t inl);
+int base64_chromium_decode(uint8_t* out, const char* in, size_t inl);
 
 } // namespace tc
 

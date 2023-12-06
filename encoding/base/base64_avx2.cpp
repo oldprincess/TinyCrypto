@@ -732,10 +732,11 @@ void base64_avx2_encode(char *out, const uint8_t *in, size_t inl)
     out[outl] = 0;
 }
 
-void base64_avx2_decode(uint8_t *out, const char *in, size_t inl)
+int base64_avx2_decode(uint8_t *out, const char *in, size_t inl)
 {
     size_t outl;
-    klomp_avx2_base64_decode(in, inl, (char *)out, &outl);
+    int    ret = klomp_avx2_base64_decode(in, inl, (char *)out, &outl);
+    return ret ? 0 : -1;
 }
 
 }; // namespace tc

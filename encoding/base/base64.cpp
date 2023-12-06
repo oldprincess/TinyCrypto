@@ -97,11 +97,15 @@ void base64_encode(char* out, const uint8_t* in, size_t inl)
     *out = '\0';
 }
 
-void base64_decode(uint8_t* out, const char* in, size_t inl)
+int base64_decode(uint8_t* out, const char* in, size_t inl)
 {
     if (inl == 0)
     {
-        return;
+        return 0;
+    }
+    if (!base64_is_b64(in, inl))
+    {
+        return -1;
     }
 
     char    c[4];
@@ -151,6 +155,7 @@ void base64_decode(uint8_t* out, const char* in, size_t inl)
         *(out + 2) = (d[2] << 6) | (d[3]);
         out += 3;
     }
+    return 0;
 }
 
 } // namespace tc
