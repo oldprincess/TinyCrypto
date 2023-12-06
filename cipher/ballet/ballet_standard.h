@@ -25,7 +25,7 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 /**
  * CUI T T, WANG M Q, FAN Y H, HU K, FU Y, HUANG L N. Ballet: A
  * software-friendly block cipher [J]. Journal of Cryptologic Research, 2019,
- * 6(6): 704–712.
+ * 6(6): 704-712.
  */
 #ifndef _TINY_CRYPTO_CIPHER_BALLET_STANDARD_H
 #define _TINY_CRYPTO_CIPHER_BALLET_STANDARD_H

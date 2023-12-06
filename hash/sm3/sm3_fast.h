@@ -1,5 +1,6 @@
 /**
- * 杨先伟,康红娟.SM3杂凑算法的软件快速实现研究[J].智能系统学报,2015,10(06):954-959.
+ * ANG Xianwei, KANG Hongjuan. Fast software implementation of SM3 Hash
+ * algorithm[J]. CAAI Transactions on Intelligent Systems, 2015, 10(2): 954-95.
  */
 #ifndef _TINY_CRYPTO_HASH_SM3_FAST_H
 #define _TINY_CRYPTO_HASH_SM3_FAST_H
