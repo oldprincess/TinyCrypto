@@ -31,6 +31,7 @@ set(ENABLE_HASH_MD5_STANDARD        ON)
 set(ENABLE_HASH_SHA1_STANDARD       ON)
 set(ENABLE_HASH_SHA2_STANDARD       ON)
 set(ENABLE_HASH_SM3_FAST            ON)
+set(ENABLE_PKC_BN_UINT              ON)
 set(ENABLE_PKC_BN_UINT256_MONT      ON)
 set(ENABLE_PKC_BN_UINT256           ON)
 set(ENABLE_PKC_SM2_SM2P256V1        ON)
@@ -115,6 +116,10 @@ endif()
 
 if(ENABLE_HASH_SM3_FAST)
     list(APPEND TC_SOURCE_FILES hash/sm3/sm3_fast.cpp)
+endif()
+
+if(ENABLE_PKC_BN_UINT)
+    list(APPEND TC_SOURCE_FILES pkc/bn/uint.cpp)
 endif()
 
 if(ENABLE_PKC_BN_UINT256_MONT)

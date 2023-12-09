@@ -6,6 +6,12 @@
 
 ## bn
 
+* uint
+
+```
+g++ -DTINY_CRYPTO_TEST -o main.exe uint.cpp test_uint.cpp
+```
+
 * uint256
 
 ```
