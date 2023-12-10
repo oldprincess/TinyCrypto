@@ -67,6 +67,15 @@ static inline uint32_t _add_mul_carry(uint32_t* r,
      ((uint8_t*)(dst))[2] = ((uint32_t)(a) >> 8) & 0xFF,  \
      ((uint8_t*)(dst))[3] = ((uint32_t)(a) >> 0) & 0xFF)
 
+/**
+ * @brief           get interger effective dsize
+ * @param dsize     data size, 32-bit words size, never be 0
+ * @param num       32*dsize bit data
+ * @return          effective dsize, only these data have value in 'num'.
+ *                  effective dsize can be 0, which means num=0
+ */
+static size_t uint_effective_dsize(size_t dsize, const uint32_t* num);
+
 // ****************************************
 // ************ Arithmetic ****************
 // ****************************************
@@ -102,26 +111,35 @@ void uint_mul(size_t          dsize,
               const uint32_t* multiplier,
               const uint32_t* multiplicand)
 {
+    size_t asize = uint_effective_dsize(dsize, multiplier);
+    size_t bsize = uint_effective_dsize(dsize, multiplicand);
+    if (asize == 0 || bsize == 0)
+    {
+        uint_set_zero(dsize, product);
+        return;
+    }
+
     {
         uint32_t carry   = 0;
         uint32_t mul_val = multiplicand[0];
-        for (size_t ia = 0; ia < dsize; ia++)
+        for (size_t ia = 0; ia < asize; ia++)
         {
             carry = _mul_carry(&product[ia], multiplier[ia], mul_val, carry);
         }
-        product[dsize] = carry;
+        product[asize] = carry;
     }
-    for (size_t ib = 1; ib < dsize; ib++)
+    for (size_t ib = 1; ib < bsize; ib++)
     {
         uint32_t carry   = 0;
         uint32_t mul_val = multiplicand[ib];
-        for (size_t ia = 0; ia < dsize; ia++)
+        for (size_t ia = 0; ia < asize; ia++)
         {
             carry = _add_mul_carry(&product[ia + ib], multiplier[ia], mul_val,
                                    carry);
         }
-        product[ib + dsize] = carry;
+        product[ib + asize] = carry;
     }
+    uint_cast(product, 2 * dsize, product, asize + bsize);
 }
 
 void uint_sqr(size_t dsize, uint32_t* product, const uint32_t* multiplier)
@@ -129,13 +147,6 @@ void uint_sqr(size_t dsize, uint32_t* product, const uint32_t* multiplier)
     uint_mul(dsize, product, multiplier, multiplier);
 }
 
-/**
- * @brief           get interger effective dsize
- * @param dsize     data size, 32-bit words size, never be 0
- * @param num       32*dsize bit data
- * @return          effective dsize, only these data have value in 'num'.
- *                  effective dsize can be 0, which means num=0
- */
 static size_t uint_effective_dsize(size_t dsize, const uint32_t* num)
 {
     while (dsize > 0 && num[dsize - 1] == 0)
