@@ -151,13 +151,14 @@ file(GLOB_RECURSE TC_HEADER_FILES
 
 # build library
 add_library(tinycrypto SHARED ${TC_HEADER_FILES} ${TC_SOURCE_FILES})
+add_library(static_tinycrypto STATIC ${TC_HEADER_FILES} ${TC_SOURCE_FILES})
 
 # export header(*.h)
 if(EXPORT_HEADER)
     message(STATUS "start copy header files")
     foreach(_file ${TC_HEADER_FILES})
         string(REPLACE 
-            ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}/include/TinyCrypto 
+            ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_BINARY_DIR}/include/TinyCrypto 
             result ${_file}
         )
         file(COPY ${_file} DESTINATION ${result})
