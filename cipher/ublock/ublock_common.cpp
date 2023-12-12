@@ -766,7 +766,7 @@ void ublock256256_common_dec_blocks(const UBlockCommonCTX *ctx,
 {
     while (block_num)
     {
-        ublock256256_enc_block(ctx->m.sub_key256256, plaintext, ciphertext);
+        ublock256256_dec_block(ctx->m.sub_key256256, plaintext, ciphertext);
         plaintext += 32, ciphertext += 32, block_num--;
     }
 }
