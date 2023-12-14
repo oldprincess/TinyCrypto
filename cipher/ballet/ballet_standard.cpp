@@ -23,8 +23,12 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /**
- * cite from:
- * https://sfjs.cacrnet.org.cn/site/term/list_76_1.html
+ * part of the code is "derived from
+ * https://sfjs.cacrnet.org.cn/site/term/list_76_1.html"
+ *
+ * CUI T T, WANG M Q, FAN Y H, HU K, FU Y, HUANG L N. Ballet: A
+ * software-friendly block cipher [J]. Journal of Cryptologic Research, 2019,
+ * 6(6): 704-712.
  */
 
 #include "ballet_standard.h"
@@ -38,8 +42,14 @@ namespace tc {
 // ++++++++++++++++++++++++++++++++++++++++++++++++++
 
 /**
- * cite from:
- * https://sfjs.cacrnet.org.cn/site/term/list_76_1.html
+ * Starting from here, until the next similar comment declaration.
+ *
+ * the code is "derived from
+ * https://sfjs.cacrnet.org.cn/site/term/list_76_1.html"
+ *
+ * CUI T T, WANG M Q, FAN Y H, HU K, FU Y, HUANG L N. Ballet: A
+ * software-friendly block cipher [J]. Journal of Cryptologic Research, 2019,
+ * 6(6): 704-712.
  */
 
 #define RoundBallet128128 46
@@ -520,6 +530,17 @@ static void Ballet256256DecDataS(uint8_t       out[32],
     *((uint64_t *)(out + 16)) = d;
     *((uint64_t *)(out + 24)) = c;
 }
+
+/**
+ * Ending here, to the previous similar comment declaration.
+ *
+ * the code is "derived from
+ * https://sfjs.cacrnet.org.cn/site/term/list_76_1.html"
+ *
+ * CUI T T, WANG M Q, FAN Y H, HU K, FU Y, HUANG L N. Ballet: A
+ * software-friendly block cipher [J]. Journal of Cryptologic Research, 2019,
+ * 6(6): 704-712.
+ */
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++
 // **************************************************
