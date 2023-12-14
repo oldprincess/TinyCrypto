@@ -39,114 +39,114 @@ set(ENABLE_PKC_SM2_SM2P256V1        ON)
 # cipher suites source files
 
 if(ENABLE_CIPHER_AES_AESNI)
-    list(APPEND TC_SOURCE_FILES cipher/aes/aes_aesni.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/cipher/aes/aes_aesni.cpp)
 endif()
 
 if(ENABLE_CIPHER_AES_LUT)
-    list(APPEND TC_SOURCE_FILES cipher/aes/aes_lut.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/cipher/aes/aes_lut.cpp)
 endif()
 
 if(ENABLE_CIPHER_BALLET_STANDARD)
-    list(APPEND TC_SOURCE_FILES cipher/ballet/ballet_standard.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/cipher/ballet/ballet_standard.cpp)
 endif()
 
 if(ENABLE_CIPHER_DES_COMMON)
-    list(APPEND TC_SOURCE_FILES cipher/des/des_common.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/cipher/des/des_common.cpp)
 endif()
 
 if(ENABLE_CIPHER_SM4_COMMON)
-    list(APPEND TC_SOURCE_FILES cipher/sm4/sm4_common.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/cipher/sm4/sm4_common.cpp)
 endif()
 
 if(ENABLE_CIPHER_SM4_LUT)
-    list(APPEND TC_SOURCE_FILES cipher/sm4/sm4_lut.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/cipher/sm4/sm4_lut.cpp)
 endif()
 
 if(ENABLE_CIPHER_UBLOCK_COMMON)
-    list(APPEND TC_SOURCE_FILES cipher/ublock/ublock_common.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/cipher/ublock/ublock_common.cpp)
 endif()
 
 if(ENABLE_CIPHER_UBLOCK_STANDARD)
-    list(APPEND TC_SOURCE_FILES cipher/ublock/ublock_standard.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/cipher/ublock/ublock_standard.cpp)
 endif()
 
 if(ENABLE_ENCODING_BASE64_AVX2)
-    list(APPEND TC_SOURCE_FILES encoding/base/base64_avx2.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/encoding/base/base64_avx2.cpp)
 endif()
 
 if(ENABLE_ENCODING_BASE64_CHROMIUM)
-    list(APPEND TC_SOURCE_FILES encoding/base/base64_chromium.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/encoding/base/base64_chromium.cpp)
 endif()
 
 if(ENABLE_ENCODING_BASE64)
-    list(APPEND TC_SOURCE_FILES encoding/base/base64.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/encoding/base/base64.cpp)
 endif()
 
 if(ENABLE_ENCODING_STR_BINARY)
-    list(APPEND TC_SOURCE_FILES encoding/str/binary.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/encoding/str/binary.cpp)
 endif()
 
 if(ENABLE_ENCODING_STR_HEXADECIMAL)
-    list(APPEND TC_SOURCE_FILES encoding/str/hexadecimal.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/encoding/str/hexadecimal.cpp)
 endif()
 
 if(ENABLE_HASH_GHASH_COMMON)
-    list(APPEND TC_SOURCE_FILES hash/ghash/ghash_common.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/hash/ghash/ghash_common.cpp)
 endif()
 
 if(ENABLE_HASH_GHASH_LUT256)
-    list(APPEND TC_SOURCE_FILES hash/ghash/ghash_lut256.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/hash/ghash/ghash_lut256.cpp)
 endif()
 
 if(ENABLE_HASH_GHASH_PCLMUL)
-    list(APPEND TC_SOURCE_FILES hash/ghash/ghash_pclmul.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/hash/ghash/ghash_pclmul.cpp)
 endif()
 
 if(ENABLE_HASH_MD5_STANDARD)
-    list(APPEND TC_SOURCE_FILES hash/md5/md5_standard.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/hash/md5/md5_standard.cpp)
 endif()
 
 if(ENABLE_HASH_SHA1_STANDARD)
-    list(APPEND TC_SOURCE_FILES hash/sha1/sha1_standard.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/hash/sha1/sha1_standard.cpp)
 endif()
 
 if(ENABLE_HASH_SHA2_STANDARD)
-    list(APPEND TC_SOURCE_FILES hash/sha2/sha2_standard.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/hash/sha2/sha2_standard.cpp)
 endif()
 
 if(ENABLE_HASH_SM3_FAST)
-    list(APPEND TC_SOURCE_FILES hash/sm3/sm3_fast.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/hash/sm3/sm3_fast.cpp)
 endif()
 
 if(ENABLE_PKC_BN_UINT)
-    list(APPEND TC_SOURCE_FILES pkc/bn/uint.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/pkc/bn/uint.cpp)
 endif()
 
 if(ENABLE_PKC_BN_UINT256_MONT)
     if(NOT ENABLE_PKC_BN_UINT256)
         message(FATAL_ERROR "BN_UINT256_MONT need BN_UINT256")
     endif()
-    list(APPEND TC_SOURCE_FILES pkc/bn/uint256_mont.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/pkc/bn/uint256_mont.cpp)
 endif()
 
 if(ENABLE_PKC_BN_UINT256)
-    list(APPEND TC_SOURCE_FILES pkc/bn/uint256.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/pkc/bn/uint256.cpp)
 endif()
 
 if(ENABLE_PKC_SM2_SM2P256V1)
     if(NOT ENABLE_PKC_BN_UINT256_MONT OR NOT ENABLE_PKC_BN_UINT256)
         message(FATAL_ERROR "SM2_SM2P256V1 need BN_UINT256_MONT and BN_UINT256")
     endif()
-    list(APPEND TC_SOURCE_FILES pkc/sm2/sm2p256v1.cpp)
+    list(APPEND TC_SOURCE_FILES TinyCrypto/pkc/sm2/sm2p256v1.cpp)
 endif()
 
 file(GLOB_RECURSE TC_HEADER_FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/cipher/*.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/encoding/*.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/hash/*.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/math/*.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/pkc/*.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/stream/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/TinyCrypto/cipher/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/TinyCrypto/encoding/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/TinyCrypto/hash/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/TinyCrypto/math/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/TinyCrypto/pkc/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/TinyCrypto/stream/*.h
 )
 
 # build library
