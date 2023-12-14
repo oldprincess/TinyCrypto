@@ -22,14 +22,33 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-/*
-WU W L, ZHANG L, ZHENG Y F, LI L C. The block cipher uBlock[J]. Journal of
-Cryptologic Research, 2019, 6(6): 690-703.
-*/
+/**
+ * part of the code is "derived from
+ * https://sfjs.cacrnet.org.cn/site/term/list_76_1.html"
+ *
+ * WU W L, ZHANG L, ZHENG Y F, LI L C. The block cipher uBlock[J]. Journal of
+ * Cryptologic Research, 2019, 6(6): 690-703.
+ */
 #include "ublock_standard.h"
 #include <immintrin.h>
 
 namespace tc {
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++
+// **************************************************
+// ************* UBLOCK CIPHER CORE *****************
+// **************************************************
+// ++++++++++++++++++++++++++++++++++++++++++++++++++
+
+/**
+ * Starting from here, until the next similar comment declaration.
+ *
+ * the code is "derived from
+ * https://sfjs.cacrnet.org.cn/site/term/list_76_1.html"
+ *
+ * WU W L, ZHANG L, ZHENG Y F, LI L C. The block cipher uBlock[J]. Journal of
+ * Cryptologic Research, 2019, 6(6): 690-703.
+ */
 
 static uint8_t RC[24 * 16] = {
     0x9, 0x8, 0x8, 0xc, 0xc, 0x9, 0xd, 0xd, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
@@ -103,14 +122,6 @@ static const uint8_t DATA_c4[16] = {
     0x80, 0x08, 0x80, 0x09, 0x80, 0x0a, 0x80, 0x0b,
     0x80, 0x0c, 0x80, 0x0d, 0x80, 0x0e, 0x80, 0x0f,
 };
-
-// ++++++++++++++++++++++++++++++++++++++++++++++++++
-// **************************************************
-// ************* UBLOCK CIPHER CORE *****************
-// **************************************************
-// ++++++++++++++++++++++++++++++++++++++++++++++++++
-
-// copy from: https://sfjs.cacrnet.org.cn/site/term/list_73_1.html
 
 // ****************************************
 // ********** uBlock 128/128 **************
@@ -1057,6 +1068,16 @@ static void uBlock_256256_Decrypt(const uint8_t  sub_key[25][64],
 
     return;
 }
+
+/**
+ * Ending here, to the previous similar comment declaration.
+ *
+ * the code is "derived from
+ * https://sfjs.cacrnet.org.cn/site/term/list_76_1.html"
+ *
+ * WU W L, ZHANG L, ZHENG Y F, LI L C. The block cipher uBlock[J]. Journal of
+ * Cryptologic Research, 2019, 6(6): 690-703.
+ */
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++
 // **************************************************
