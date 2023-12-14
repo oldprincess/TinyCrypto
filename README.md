@@ -27,7 +27,7 @@ g++ -DTINY_CRYPTO_TEST -o main.exe aes_lut.cpp test_aes_lut.cpp
 ```
 mkdir build
 cd build
-cmake ..
+cmake .. -DTINY_CRYPTO_ACCEPT_ALL_LICENSE=true
 cmake --build . --config=Release
 ```
 

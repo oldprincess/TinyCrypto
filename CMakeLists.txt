@@ -2,6 +2,13 @@ cmake_minimum_required(VERSION 3.4)
 
 project(TinyCrypto)
 
+# check license
+if (NOT TINY_CRYPTO_ACCEPT_ALL_LICENSE)
+    message(FATAL_ERROR "You did not accept the LICENSE. If you accept, use -DTINY_CRYPTO_ACCEPT_ALL_LICENSE=true")
+else()
+    message("You did accept the LICENSE")
+endif()
+
 # set compiler options
 if (MSVC)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS True)
