@@ -49,6 +49,17 @@ g++ -DTINY_CRYPTO_TEST -o main.exe md5_standard.cpp test_md5_standard.cpp
 > FIPS 180-4 Secure Hash Standard (SHS), 
 > https://csrc.nist.gov/pubs/fips/180-4/upd1/final
 
+* sha1 shani
+
+> "derived from miTLS project. sha1-x86.c", 
+> https://github.com/noloader/SHA-Intrinsics/blob/master/sha1-x86.c
+
+需要支持Intel的SHA-NI指令集和SSSE3指令集
+
+```
+g++ -DTINY_CRYPTO_TEST -o main.exe sha1_shani.cpp test_sha1_shani.cpp -msha -mssse3
+```
+
 * sha1 standard
 
 > Copyright (c) 2011 IETF Trust and the persons identified as authors of the code.  All rights reserved.
@@ -64,6 +75,19 @@ g++ -DTINY_CRYPTO_TEST -o main.exe sha1_standard.cpp test_sha1_standard.cpp
 
 > FIPS 180-4 Secure Hash Standard (SHS)
 > https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf
+
+* sha2 shani
+
+> "derived from miTLS project. sha256-x86.c", 
+> https://github.com/noloader/SHA-Intrinsics/blob/master/sha256-x86.c
+
+需要支持Intel的SHA-NI指令集和SSE4指令集
+
+只支持sha224和sha256
+
+```
+g++ -DTINY_CRYPTO_TEST -o main.exe sha2_shani.cpp test_sha2_shani.cpp -msha -mssse3
+```
 
 * sha2 standard
 
