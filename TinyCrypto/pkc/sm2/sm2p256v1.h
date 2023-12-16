@@ -9,14 +9,14 @@ namespace tc {
 
 namespace sm2p256v1 {
 
-extern uint8_t SM2_DEFAULT_ID[];
-extern size_t  SM2_DEFAULT_ID_LEN;
-extern uint8_t SM2_CURVE_P[];  // 32-byte length
-extern uint8_t SM2_CURVE_A[];  // 32-byte length
-extern uint8_t SM2_CURVE_B[];  // 32-byte length
-extern uint8_t SM2_CURVE_N[];  // 32-byte length
-extern uint8_t SM2_CURVE_GX[]; // 32-byte length
-extern uint8_t SM2_CURVE_GY[]; // 32-byte length
+extern const uint8_t SM2_DEFAULT_ID[];
+extern const size_t  SM2_DEFAULT_ID_LEN;
+extern const uint8_t SM2_CURVE_P[];  // 32-byte length
+extern const uint8_t SM2_CURVE_A[];  // 32-byte length
+extern const uint8_t SM2_CURVE_B[];  // 32-byte length
+extern const uint8_t SM2_CURVE_N[];  // 32-byte length
+extern const uint8_t SM2_CURVE_GX[]; // 32-byte length
+extern const uint8_t SM2_CURVE_GY[]; // 32-byte length
 
 typedef uint32_t sm2_bn_t[8];
 typedef uint32_t sm2_fn_t[8];
@@ -36,6 +36,7 @@ typedef union sm2_ec_t
 } sm2_ec_t;
 
 int  sm2_bn_cmp(const sm2_bn_t a, const sm2_bn_t b);
+bool sm2_bn_equal_zero(const sm2_bn_t a);
 int  sm2_bn_add_uint32(sm2_bn_t r, const sm2_bn_t a, uint32_t b);
 void sm2_bn_mod_n_sub2(sm2_bn_t a);
 void sm2_bn_mod_n_sub3(sm2_bn_t a);
