@@ -1,5 +1,16 @@
 # TinyCrypto--encoding
 
+## asn1
+
+* asn1
+
+> X.680-X.693 : Information Technology - Abstract Syntax Notation One (ASN.1) & ASN.1 encoding rules. 
+> https://www.itu.int/rec/T-REC-X.680-X.693-202102-I/en
+
+```
+g++ -DTINY_CRYPTO_TEST -o main.exe asn1.cpp test_asn1.cpp
+```
+
 ## base
 
 * base64 avx2
