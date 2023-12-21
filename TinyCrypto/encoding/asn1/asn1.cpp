@@ -469,8 +469,8 @@ int asn1_decode_boolean_value(bool*          ret,
     return 0;
 }
 
-int asn1_decode_integer_value(const uint8_t** value_ptr,
-                              size_t*         value_length,
+int asn1_decode_integer_value(const uint8_t** data_ptr,
+                              size_t*         data_length,
                               size_t*         read_num,
                               const uint8_t*  in,
                               size_t          inl)
@@ -498,13 +498,21 @@ int asn1_decode_integer_value(const uint8_t** value_ptr,
             return -1;
         }
     }
-    *value_ptr    = tlv.value;
-    *value_length = tlv.length;
+    if (tlv.length > 1 && tlv.value[0] == 0)
+    {
+        *data_ptr    = tlv.value + 1;
+        *data_length = tlv.length - 1;
+    }
+    else
+    {
+        *data_ptr    = tlv.value;
+        *data_length = tlv.length;
+    }
     return 0;
 }
 
-int asn1_decode_bit_string_value(const uint8_t** value_ptr,
-                                 size_t*         value_length,
+int asn1_decode_bit_string_value(const uint8_t** data_ptr,
+                                 size_t*         data_length,
                                  size_t*         bits_length,
                                  size_t*         read_num,
                                  const uint8_t*  in,
@@ -529,14 +537,14 @@ int asn1_decode_bit_string_value(const uint8_t** value_ptr,
     {
         return -1;
     }
-    *value_ptr    = tlv.value + 1;
-    *value_length = tlv.length - 1;
-    *bits_length  = 8 * (tlv.length - 1) - in[0];
+    *data_ptr    = tlv.value + 1;
+    *data_length = tlv.length - 1;
+    *bits_length = 8 * (tlv.length - 1) - in[0];
     return 0;
 }
 
-int asn1_decode_octet_string_value(const uint8_t** value_ptr,
-                                   size_t*         value_length,
+int asn1_decode_octet_string_value(const uint8_t** data_ptr,
+                                   size_t*         data_length,
                                    size_t*         read_num,
                                    const uint8_t*  in,
                                    size_t          inl)
@@ -552,8 +560,8 @@ int asn1_decode_octet_string_value(const uint8_t** value_ptr,
         return -1;
     }
     // contents
-    *value_ptr    = tlv.value;
-    *value_length = tlv.length;
+    *data_ptr    = tlv.value;
+    *data_length = tlv.length;
     return 0;
 }
 

@@ -151,21 +151,21 @@ int asn1_decode_boolean_value(bool*          ret,
                               const uint8_t* in,
                               size_t         inl);
 
-int asn1_decode_integer_value(const uint8_t** value_ptr,
-                              size_t*         value_length,
+int asn1_decode_integer_value(const uint8_t** data_ptr,
+                              size_t*         data_length,
                               size_t*         read_num,
                               const uint8_t*  in,
                               size_t          inl);
 
-int asn1_decode_bit_string_value(const uint8_t** value_ptr,
-                                 size_t*         value_length,
+int asn1_decode_bit_string_value(const uint8_t** data_ptr,
+                                 size_t*         data_length,
                                  size_t*         bits_length,
                                  size_t*         read_num,
                                  const uint8_t*  in,
                                  size_t          inl);
 
-int asn1_decode_octet_string_value(const uint8_t** value_ptr,
-                                   size_t*         value_length,
+int asn1_decode_octet_string_value(const uint8_t** data_ptr,
+                                   size_t*         data_length,
                                    size_t*         read_num,
                                    const uint8_t*  in,
                                    size_t          inl);
