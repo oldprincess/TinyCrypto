@@ -1,4 +1,28 @@
-#include "base64.h"
+/*
+The MIT License (MIT)
+
+Copyright (c) 2023 oldprincess, https://github.com/oldprincess/TinyCrypto
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+#include "base64_common.h"
 
 namespace tc {
 
@@ -28,7 +52,7 @@ static const uint8_t B64_MAP[256] = {
 static const char B64_TABLE[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-bool base64_is_b64(const char* in, size_t inl)
+bool base64_common_is_b64(const char* in, size_t inl)
 {
     if (inl % 4 != 0)
     {
@@ -44,17 +68,17 @@ bool base64_is_b64(const char* in, size_t inl)
     return true;
 }
 
-size_t base64_encode_outl(size_t inl)
+size_t base64_common_encode_outl(size_t inl)
 {
     return ((inl + 2) / 3) * 4 + 1;
 }
 
-size_t base64_encode_strl(size_t inl)
+size_t base64_common_encode_strl(size_t inl)
 {
     return ((inl + 2) / 3) * 4;
 }
 
-size_t base64_decode_outl(const char* in, size_t inl)
+size_t base64_common_decode_outl(const char* in, size_t inl)
 {
     if (inl == 0)
     {
@@ -65,7 +89,7 @@ size_t base64_decode_outl(const char* in, size_t inl)
     return 3 * (inl / 4) - last1 - last2;
 }
 
-void base64_encode(char* out, const uint8_t* in, size_t inl)
+void base64_common_encode(char* out, const uint8_t* in, size_t inl)
 {
     while (inl > 3)
     {
@@ -97,13 +121,13 @@ void base64_encode(char* out, const uint8_t* in, size_t inl)
     *out = '\0';
 }
 
-int base64_decode(uint8_t* out, const char* in, size_t inl)
+int base64_common_decode(uint8_t* out, const char* in, size_t inl)
 {
     if (inl == 0)
     {
         return 0;
     }
-    if (!base64_is_b64(in, inl))
+    if (!base64_common_is_b64(in, inl))
     {
         return -1;
     }

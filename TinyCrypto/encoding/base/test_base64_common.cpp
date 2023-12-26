@@ -1,6 +1,6 @@
 #ifdef TINY_CRYPTO_TEST
 
-#include "base64.h"
+#include "base64_common.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -52,28 +52,28 @@ static void test_base64()
     uint8_t data[32];
     char    b64[60];
     // test encode
-    base64_encode(b64, data1, sizeof(data1));
+    base64_common_encode(b64, data1, sizeof(data1));
     if (strcmp(b64, b64_1) != 0)
     {
         fprintf(stderr, "err in base64_encode, file: %s, line: %d\n", __FILE__,
                 __LINE__);
         exit(-1);
     }
-    base64_encode(b64, data2, sizeof(data2));
+    base64_common_encode(b64, data2, sizeof(data2));
     if (strcmp(b64, b64_2) != 0)
     {
         fprintf(stderr, "err in base64_encode, file: %s, line: %d\n", __FILE__,
                 __LINE__);
         exit(-1);
     }
-    base64_encode(b64, data3, sizeof(data3));
+    base64_common_encode(b64, data3, sizeof(data3));
     if (strcmp(b64, b64_3) != 0)
     {
         fprintf(stderr, "err in base64_encode, file: %s, line: %d\n", __FILE__,
                 __LINE__);
         exit(-1);
     }
-    base64_encode(b64, data4, sizeof(data4));
+    base64_common_encode(b64, data4, sizeof(data4));
     if (strcmp(b64, b64_4) != 0)
     {
         fprintf(stderr, "err in base64_encode, file: %s, line: %d\n", __FILE__,
@@ -81,52 +81,52 @@ static void test_base64()
         exit(-1);
     }
     // test decode
-    if (base64_decode(data, b64_1, strlen(b64_1)))
+    if (base64_common_decode(data, b64_1, strlen(b64_1)))
     {
         fprintf(stderr, "err in base64_decode, file: %s, line: %d\n", __FILE__,
                 __LINE__);
         exit(-1);
     }
-    if (base64_decode_outl(b64_1, strlen(b64_1)) != sizeof(data1) ||
+    if (base64_common_decode_outl(b64_1, strlen(b64_1)) != sizeof(data1) ||
         memcmp(data, data1, sizeof(data1)) != 0)
     {
         fprintf(stderr, "err in base64_decode, file: %s, line: %d\n", __FILE__,
                 __LINE__);
         exit(-1);
     }
-    if (base64_decode(data, b64_2, strlen(b64_2)))
+    if (base64_common_decode(data, b64_2, strlen(b64_2)))
     {
         fprintf(stderr, "err in base64_decode, file: %s, line: %d\n", __FILE__,
                 __LINE__);
         exit(-1);
     }
-    if (base64_decode_outl(b64_2, strlen(b64_2)) != sizeof(data2) ||
+    if (base64_common_decode_outl(b64_2, strlen(b64_2)) != sizeof(data2) ||
         memcmp(data, data2, sizeof(data2)) != 0)
     {
         fprintf(stderr, "err in base64_decode, file: %s, line: %d\n", __FILE__,
                 __LINE__);
         exit(-1);
     }
-    if (base64_decode(data, b64_3, strlen(b64_3)))
+    if (base64_common_decode(data, b64_3, strlen(b64_3)))
     {
         fprintf(stderr, "err in base64_decode, file: %s, line: %d\n", __FILE__,
                 __LINE__);
         exit(-1);
     }
-    if (base64_decode_outl(b64_3, strlen(b64_3)) != sizeof(data3) ||
+    if (base64_common_decode_outl(b64_3, strlen(b64_3)) != sizeof(data3) ||
         memcmp(data, data3, sizeof(data3)) != 0)
     {
         fprintf(stderr, "err in base64_decode, file: %s, line: %d\n", __FILE__,
                 __LINE__);
         exit(-1);
     }
-    if (base64_decode(data, b64_4, strlen(b64_4)))
+    if (base64_common_decode(data, b64_4, strlen(b64_4)))
     {
         fprintf(stderr, "err in base64_decode, file: %s, line: %d\n", __FILE__,
                 __LINE__);
         exit(-1);
     }
-    if (base64_decode_outl(b64_4, strlen(b64_4)) != sizeof(data4) ||
+    if (base64_common_decode_outl(b64_4, strlen(b64_4)) != sizeof(data4) ||
         memcmp(data, data4, sizeof(data4)) != 0)
     {
         fprintf(stderr, "err in base64_decode, file: %s, line: %d\n", __FILE__,

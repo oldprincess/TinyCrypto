@@ -36,13 +36,13 @@ g++ -DTINY_CRYPTO_TEST -o main.exe base64_avx2.cpp test_base64_avx2.cpp -mavx2
 g++ -DTINY_CRYPTO_TEST -o main.exe base64_chromium.cpp test_base64_chromium.cpp
 ```
 
-* base64
+* base64 common
 
 > RFC 4648: The Base16, Base32, and Base64 Data Encodings
 > https://www.rfc-editor.org/rfc/rfc4648
 
 ```
-g++ -DTINY_CRYPTO_TEST -o main.exe base64.cpp test_base64.cpp
+g++ -DTINY_CRYPTO_TEST -o main.exe base64_common.cpp test_base64_common.cpp
 ```
 
 ## str
