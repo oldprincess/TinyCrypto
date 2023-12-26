@@ -35,18 +35,18 @@ int main()
     uint8_t    digest[20];
     for (int j = 0; j < 4; j++)
     {
-        sha1_sha_reset(&ctx);
+        sha1_shani_reset(&ctx);
         for (int i = 0; i < repeatcount[j]; i++)
         {
             size_t len = strlen(testarray[j]);
-            if (sha1_sha_update(&ctx, (uint8_t *)testarray[j], len))
+            if (sha1_shani_update(&ctx, (uint8_t *)testarray[j], len))
             {
                 fprintf(stderr, "err in sha1 sha update, file: %s, line: %d\n",
                         __FILE__, __LINE__);
                 exit(-1);
             }
         }
-        sha1_sha_final(&ctx, digest);
+        sha1_shani_final(&ctx, digest);
         // convert to hex
         char out_hex[20 * 3] = {0};
         for (int i = 0; i < 20; i++)
@@ -65,7 +65,7 @@ int main()
             exit(-1);
         }
     }
-    puts("test sha1 sha ok!");
+    puts("test sha1 shani ok!");
     return 0;
 }
 #endif

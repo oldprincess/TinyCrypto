@@ -271,7 +271,7 @@ static void sha1_compress(uint32_t state[5], const uint8_t data[64])
 // **************************************************
 // ++++++++++++++++++++++++++++++++++++++++++++++++++
 
-void sha1_sha_init(Sha1ShaniCTX* ctx)
+void sha1_shani_init(Sha1ShaniCTX* ctx)
 {
     static const uint32_t SHA1_INIT_DIGEST[5] = {
         0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0,
@@ -285,12 +285,12 @@ void sha1_sha_init(Sha1ShaniCTX* ctx)
     ctx->data_bits = 0;
 }
 
-void sha1_sha_reset(Sha1ShaniCTX* ctx)
+void sha1_shani_reset(Sha1ShaniCTX* ctx)
 {
-    sha1_sha_init(ctx);
+    sha1_shani_init(ctx);
 }
 
-int sha1_sha_update(Sha1ShaniCTX* ctx, const uint8_t* in, size_t inl)
+int sha1_shani_update(Sha1ShaniCTX* ctx, const uint8_t* in, size_t inl)
 {
     if (inl > UINT64_MAX / 8)
     {
@@ -352,7 +352,7 @@ int sha1_sha_update(Sha1ShaniCTX* ctx, const uint8_t* in, size_t inl)
     return 0;
 }
 
-void sha1_sha_final(Sha1ShaniCTX* ctx, uint8_t digest[20])
+void sha1_shani_final(Sha1ShaniCTX* ctx, uint8_t digest[20])
 {
     size_t  pad_num = (64ULL + 56 - 1 - ctx->buf_size) % 64;
     uint8_t buf[64 * 2];
