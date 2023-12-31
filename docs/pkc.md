@@ -41,8 +41,14 @@ g++ -DTINY_CRYPTO_TEST -o main.exe uint256.cpp uint256_mont.cpp test_uint256_mon
 > GB/T 32918.5-2017 信息安全技术 SM2椭圆曲线公钥密码算法 第5部分：参数定义\
 > GB/T 32918.5-2017 Information security technology—Public key cryptographic algorithm SM2 based on elliptic curves—Part 5: Parameter definition
 
+* sm2p256v1 asn.1
+
 > GB/T 35275-2017 信息安全技术 SM2密码算法加密签名消息语法规范\
 > GB/T 35275-2017 Information security technology—SM2 cryptographic algorithm encrypted signature message syntax specification
+
+```
+g++ -DTINY_CRYPTO_TEST -o main.exe test_sm2p256v1_asn1.cpp sm2p256v1_asn1.cpp ../../encoding/str/hexadecimal.cpp ../../encoding/asn1/asn1.cpp
+```
 
 * sm2p256v1
 
