@@ -1,10 +1,34 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2023 oldprincess, https://github.com/oldprincess/TinyCrypto
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 #include "asn1.h"
 #include <stdio.h>
 #include <string.h>
 
 namespace tc {
 
-int r_asn1_dump(const uint8_t* in, size_t inl, size_t depth)
+static int r_asn1_dump(const uint8_t* in, size_t inl, size_t depth)
 {
     Asn1TLV tlv;
     size_t  read_num;
@@ -58,12 +82,16 @@ int asn1_dump(const uint8_t* in, size_t inl)
     return r_asn1_dump(in, inl, 0);
 }
 
+/**
+ * @brief       ASN.1 encode identifier octets
+ * @param out   1-byte output data: CLASS|PC|NUMBER
+ */
 static void asn1_encode_identifier_octets(uint8_t       out[1],
                                           Asn1TagClass  tag_class,
                                           Asn1TagPC     tag_pc,
                                           Asn1TagNumber tag_number)
 {
-    out[0] = (tag_class << 6) | (tag_pc << 5) | tag_number;
+    out[0] = tag_class | tag_pc | tag_number;
 }
 
 static void asn1_encode_length_octets(uint8_t* out, size_t* outl, size_t length)
@@ -86,7 +114,7 @@ static void asn1_encode_length_octets(uint8_t* out, size_t* outl, size_t length)
         *outl = 1 + tmp_size;
         *out  = 0x80 | tmp_size;
         out++;
-        for (uint8_t i = tmp_size - 1; i >= 0; i--)
+        for (int i = (int)tmp_size - 1; i >= 0; i--)
         {
             *out = tmp[i];
             out++;
@@ -94,6 +122,17 @@ static void asn1_encode_length_octets(uint8_t* out, size_t* outl, size_t length)
     }
 }
 
+/**
+ * @brief               ASN.1 decode identifier octets
+ * @param tag_class     asn.1 tag class
+ * @param tag_pc        asn.1 tag p/c
+ * @param tag_number    asn.1 tag number
+ * @param read_num      always 1
+ * @return              error code
+ * @retval               0: Success
+ * @retval              -1: Invalid Encoding
+ * @retval              -2: Unsupport Encoding
+ */
 static int asn1_decode_identifier_octets(Asn1TagClass*  tag_class,
                                          Asn1TagPC*     tag_pc,
                                          Asn1TagNumber* tag_number,
@@ -275,6 +314,12 @@ size_t asn1_encode_boolean_outl()
     return 3; // tag(1), length(1), value(1)
 }
 
+/**
+ * @brief           calculate ASN.1 INTEGER value length
+ * @param data      integer memory data(big endian), 'data_len' bytes
+ * @param data_len  data length(in bytes)
+ * @return          value length
+ */
 static size_t asn1_encode_integer_value_length(const uint8_t* data,
                                                size_t         data_len)
 {
@@ -296,6 +341,11 @@ size_t asn1_encode_integer_outl(const uint8_t* data, size_t data_len)
     return asn1_encode_tlv_outl(value_length);
 }
 
+/**
+ * @brief       calculate ASN.1 BIT STRING value length
+ * @param bits  bits length
+ * @return      value length
+ */
 static size_t asn1_encode_bit_string_value_length(size_t bits)
 {
     return (bits + 7) / 8 + 1;
@@ -322,6 +372,15 @@ size_t asn1_encode_set_outl(size_t value_length)
     return asn1_encode_tlv_outl(value_length);
 }
 
+/**
+ * @brief               ASN.1 encode TAG and Length
+ * @param out           output
+ * @param outl          output length
+ * @param tag_class     asn.1 tag class
+ * @param tag_pc        asn.1 tag p/c
+ * @param tag_number    asn.1 tag number
+ * @param value_length  ASN.1 value Length
+ */
 static void asn1_encode_tl(uint8_t*      out,
                            size_t*       outl,
                            Asn1TagClass  tag_class,
@@ -330,7 +389,7 @@ static void asn1_encode_tl(uint8_t*      out,
                            size_t        value_length)
 {
     // encode tag
-    *out = tag_class | tag_pc | tag_number;
+    asn1_encode_identifier_octets(out, tag_class, tag_pc, tag_number);
     out += 1;
     // encode length
     size_t n;
@@ -594,7 +653,7 @@ int asn1_decode_sequence_value(const uint8_t** value_ptr,
         return err;
     }
     if (tlv.tag_pc != ASN1_TAG_PC_CONSTRUCTED ||
-        tlv.tag_number != ASN1_TAG_SEQUENCE || tlv.length != 0)
+        tlv.tag_number != ASN1_TAG_SEQUENCE || tlv.length == 0)
     {
         return -1;
     }
@@ -617,7 +676,7 @@ int asn1_decode_set_value(const uint8_t** value_ptr,
         return err;
     }
     if (tlv.tag_pc != ASN1_TAG_PC_CONSTRUCTED ||
-        tlv.tag_number != ASN1_TAG_SET || tlv.length != 0)
+        tlv.tag_number != ASN1_TAG_SET || tlv.length == 0)
     {
         return -1;
     }

@@ -1,3 +1,27 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2023 oldprincess, https://github.com/oldprincess/TinyCrypto
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 #ifndef TINY_CRYPTO_ENCODING_ASN1_H
 #define TINY_CRYPTO_ENCODING_ASN1_H
 
@@ -60,17 +84,46 @@ typedef struct Asn1TLV
     const uint8_t* value;
 } Asn1TLV;
 
+/**
+ * @brief       dump asn1 encoding to stdout
+ * @param in    input asn1 encoding
+ * @param inl   input length
+ * @return      error code
+ * @retval       0: Success
+ * @retval      -1: Invalid Encoding
+ * @retval      -2: Unsupport Encoding
+ */
 int asn1_dump(const uint8_t* in, size_t inl);
 
+/**
+ * @brief           decode ASN.1 TLV node
+ * @param tlv       ASN.1 TLV struct
+ * @param read_num  read number of bytes
+ * @param in        input asn1 encoding
+ * @param inl       input length
+ * @return          error code
+ * @retval           0: Success
+ * @retval          -1: Invalid Encoding
+ * @retval          -2: Unsupport Encoding
+ */
 int asn1_decode_tlv(Asn1TLV*       tlv,
                     size_t*        read_num,
                     const uint8_t* in,
                     size_t         inl);
 
+/**
+ * @brief get ASN.1 TAG class name
+ */
 const char* asn1_tag_class_name(Asn1TagClass tag_class);
 
+/**
+ * @brief get ASN.1 TAG PRIMITIVE/CONSTRUCTED name
+ */
 const char* asn1_tag_pc_name(Asn1TagPC tag_pc);
 
+/**
+ * @brief get ASN.1 TAG NUMBER name
+ */
 const char* asn1_tag_number_name(Asn1TagNumber tag_number);
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++
